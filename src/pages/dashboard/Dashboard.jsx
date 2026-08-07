@@ -1,0 +1,103 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getDashboardStats, getDashboardCharts, getAuth, clearAuth } from '../../services/api'
+import { useTheme } from '../../context/ThemeContext'
+import JanmashtamiDashboard from './janmashtami/JanmashtamiDashboard'
+import IyfDashboard from './iyf/IyfDashboard'
+import ImyfDashboard from './imyf/ImyfDashboard'
+import DonationDashboard from './donation/DonationDashboard'
+import DonationManager from './donation/DonationManager'
+import WelcomeBanner from './WelcomeBanner'
+import RegistrationsByProgram from './charts/RegistrationsByProgram'
+import RegistrationsOverTime from './charts/RegistrationsOverTime'
+import ProgramShare from './charts/ProgramShare'
+import DonationsOverTime from './charts/DonationsOverTime'
+
+export default function Dashboard() {
+  const navigate = useNavigate()
+  const auth = getAuth()
+  const isAdmin = auth?.role === 'admin'
+  const { theme } = useTheme()
+  const [stats, setStats] = useState(null)
+  const [charts, setCharts] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  async function load() {
+    try {
+      const data = await getDashboardStats()
+      setStats(data)
+      const chartData = await getDashboardCharts()
+      setCharts(chartData)
+    } catch (err) {
+      setError(err.message || 'Failed to load dashboard')
+      clearAuth()
+      navigate('/login', { replace: true })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!auth) {
+      navigate('/login', { replace: true })
+      return
+    }
+    if (!isAdmin) {
+      navigate('/', { replace: true })
+      return
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, isAdmin])
+
+  if (loading) {
+    return (
+      <div className="py-24 text-center text-gray-500">
+        <p className="text-lg">Loading dashboard...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="py-24 text-center">
+        <p className="text-red-600 font-semibold">{error}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="py-12">
+      <div key={theme} className="max-w-[100rem] mx-auto px-4 md:px-8">
+        <WelcomeBanner isAdmin />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <JanmashtamiDashboard count={stats.janmashtami} />
+          <IyfDashboard count={stats.iyf} />
+          <ImyfDashboard count={stats.imyf} />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <DonationDashboard count={stats.donations} total={stats.donationTotal} />
+          <DonationManager onRecorded={load} />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <RegistrationsByProgram stats={stats} />
+          <ProgramShare stats={stats} />
+          <RegistrationsOverTime trend={charts?.registrationTrend} />
+          <DonationsOverTime trend={charts?.donationTrend} />
+        </div>
+
+        <div className="mt-8 rounded-2xl p-6 text-white"
+          style={{ background: 'linear-gradient(90deg, var(--theme-from), var(--theme-via), var(--theme-to))' }}>
+          <div className="flex items-center justify-between">
+            <p className="text-2xl font-bold">Total Registrations</p>
+            <p className="text-5xl font-bold" style={{ color: 'var(--theme-accent)' }}>{stats.total}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

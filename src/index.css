@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+:root,
+[data-theme="saffron"] {
+  --theme-from: #c2410c;
+  --theme-via: #dc2626;
+  --theme-to: #ca8a04;
+  --theme-soft-from: #ffedd5;
+  --theme-soft-to: #fef9c3;
+  --theme-accent: #facc15;
+  --theme-accent-hover: #fde047;
+  --theme-accent-text: #7c2d12;
+  --theme-cta-from: #ea580c;
+  --theme-cta-to: #dc2626;
+  --theme-cta-hover-from: #c2410c;
+  --theme-cta-hover-to: #b91c1c;
+  --theme-text-soft: #ffedd5;
+  --theme-card-bg: #fff7ed;
+}
+
+[data-theme="blue"] {
+  --theme-from: #1d4ed8;
+  --theme-via: #2563eb;
+  --theme-to: #6d28d9;
+  --theme-soft-from: #dbeafe;
+  --theme-soft-to: #ede9fe;
+  --theme-accent: #facc15;
+  --theme-accent-hover: #fde047;
+  --theme-accent-text: #1e3a8a;
+  --theme-cta-from: #2563eb;
+  --theme-cta-to: #7c3aed;
+  --theme-cta-hover-from: #1d4ed8;
+  --theme-cta-hover-to: #6d28d9;
+  --theme-text-soft: #dbeafe;
+  --theme-card-bg: #eff6ff;
+}
+
+[data-theme="green"] {
+  --theme-from: #047857;
+  --theme-via: #059669;
+  --theme-to: #65a30d;
+  --theme-soft-from: #d1fae5;
+  --theme-soft-to: #ecfccb;
+  --theme-accent: #facc15;
+  --theme-accent-hover: #fde047;
+  --theme-accent-text: #064e3b;
+  --theme-cta-from: #059669;
+  --theme-cta-to: #65a30d;
+  --theme-cta-hover-from: #047857;
+  --theme-cta-hover-to: #4d7c0f;
+  --theme-text-soft: #d1fae5;
+  --theme-card-bg: #ecfdf5;
+}
+
+[data-theme="purple"] {
+  --theme-from: #6d28d9;
+  --theme-via: #9333ea;
+  --theme-to: #db2777;
+  --theme-soft-from: #ede9fe;
+  --theme-soft-to: #fce7f3;
+  --theme-accent: #facc15;
+  --theme-accent-hover: #fde047;
+  --theme-accent-text: #4c1d95;
+  --theme-cta-from: #9333ea;
+  --theme-cta-to: #db2777;
+  --theme-cta-hover-from: #7e22ce;
+  --theme-cta-hover-to: #be185d;
+  --theme-text-soft: #ede9fe;
+  --theme-card-bg: #faf5ff;
+}
