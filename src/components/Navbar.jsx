@@ -15,8 +15,8 @@ export default function Navbar() {
     { to: '/', label: 'Home' },
     { to: '/janmashtami', label: 'Janmashtami' },
     { to: '/iyf', label: 'IYF' },
-    { to: '/design-system', label: 'Design System' },
-    { to: '/imyf', label: 'IMYF' },
+    // { to: '/design-system', label: 'Design System' },
+    { to: '/imyf', label: 'BhaktiVriksha' },
     ...(isAdmin ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
   ]
 
@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="max-w-[100rem] mx-auto px-2 md:px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img
             src="/images/iskcon-logo.svg"

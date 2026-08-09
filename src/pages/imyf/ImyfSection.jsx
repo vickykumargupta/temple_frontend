@@ -9,59 +9,61 @@ export default function ImyfSection() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-14">
           <div className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
-            ISKCON Men & Youth Forum
+            ISKCON BhaktiVriksha
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">IMYF</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">BhaktiVriksha</h2>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            Dedicated to the spiritual and personal growth of young men — discipline, responsibility,
-            and devotion through the teachings of Srila Prabhupada.
+            A family-centric spiritual community for married couples, senior devotees and families —
+            growing together in devotion, service and mutual care.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           <InfoCard
-            icon="🛡️"
-            title="Character Building"
-            desc="Training in discipline, responsibility and integrity to become strong leaders of society."
+            icon="👨‍👩‍👧‍👦"
+            title="Family Friendly"
+            desc="Programs designed for couples, parents and children to practice Krishna consciousness together."
+          />
+          <InfoCard
+            icon="🏡"
+            title="House Program"
+            desc="Small gatherings in devotee homes — chant, discuss scripture and share prasadam in a warm setting."
+            to="/imyf/house-program"
           />
           <InfoCard
             icon="📿"
-            title="Devotional Practice"
-            desc="Structured programs in japa, sadhana and scriptural study for a strong spiritual foundation."
+            title="Sadhana & Japa"
+            desc="Guided chanting and devotional routines that fit gracefully into family and senior life."
           />
           <InfoCard
-            icon="👨‍🏫"
-            title="Mentorship"
-            desc="Guidance from senior devotees and teachers on life, career and spiritual progress."
+            icon="🧠"
+            title="Wisdom Sharing"
+            desc="Learnings from the Bhagavad-gita and Srila Prabhupada, shared in an accessible, relatable way."
+            to="/imyf/wisdom-sharing"
           />
           <InfoCard
-            icon="💪"
-            title="Health & Fitness"
-            desc="Programs for physical health, energy and a balanced lifestyle — a healthy body for a healthy mind."
+            icon="💞"
+            title="Mutual Care"
+            desc="A support network where families and senior devotees look after one another through life's journey."
           />
           <InfoCard
-            icon="🎤"
-            title="Public Speaking"
-            desc="Developing the skills to present Krishna consciousness with logic, conviction and clarity."
-          />
-          <InfoCard
-            icon="🤝"
-            title="Brotherhood"
-            desc="A supportive community of young men walking the path of bhakti together."
+            icon="🙏"
+            title="Service Opportunities"
+            desc="Engage in meaningful temple and community service suited to your time and stage of life."
           />
         </div>
 
         <div className="text-white rounded-3xl p-10 md:p-14 text-center" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
-          <h3 className="text-2xl md:text-3xl font-bold mb-3">Grow in Brotherhood & Devotion</h3>
+          <h3 className="text-2xl md:text-3xl font-bold mb-3">Grow Together in Bhakti</h3>
           <p className="mb-8 max-w-xl mx-auto" style={{ color: 'var(--theme-text-soft)' }}>
-            Join young men who are serious about living a life of values, culture and Krishna consciousness.
+            Join a community of families and devotees practising Krishna consciousness at every stage of life.
           </p>
           <a
             href="#register"
             className="bg-white font-bold text-lg px-10 py-4 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-xl inline-block"
             style={{ color: 'var(--theme-cta-from)' }}
           >
-            Join IMYF
+            Join BhaktiVriksha
           </a>
         </div>
       </div>
@@ -69,26 +71,27 @@ export default function ImyfSection() {
       <div id="register" className="bg-white py-16 scroll-mt-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            Join IMYF
+            Join BhaktiVriksha
           </h2>
           <div className="w-20 h-1 mx-auto mb-8 rounded-full" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}></div>
           <p className="text-gray-600 mb-10">
-            For corporate employees — fill in your details below to join the ISKCON Men & Youth Forum community
+            For married couples, senior devotees and families — fill in your details below to join the BhaktiVriksha community
           </p>
           <ProgramRegistrationForm
-            title="IMYF Professional Registration"
-            program="IMYF"
+            title="BhaktiVriksha Registration"
+            program="BhaktiVriksha"
             registerFn={registerImyf}
-            intro="IMYF is open to corporate employees"
+            intro="BhaktiVriksha is open to married & senior devotees and families"
             fields={[
+              { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female'], placeholder: 'Select gender' },
               { name: 'fullName', label: 'Full Name', type: 'text', required: true, placeholder: 'Enter your full name' },
               { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Enter your email', defaultValue: email },
               { name: 'phone', label: 'Phone', type: 'tel', required: true, placeholder: 'Enter your phone number' },
               { name: 'age', label: 'Age', type: 'number', placeholder: 'Enter your age' },
-              { name: 'company', label: 'Company', type: 'text', placeholder: 'Enter your company name' },
-              { name: 'designation', label: 'Designation / Role', type: 'text', placeholder: 'e.g. Software Engineer, Manager' },
-              { name: 'industry', label: 'Industry', type: 'text', placeholder: 'e.g. IT, Finance, Healthcare' },
-              { name: 'interests', label: 'Interests', type: 'textarea', fullWidth: true, placeholder: 'What areas interest you most? (kirtan, Gita classes, service, etc.)' },
+              { name: 'spouseName', label: 'Spouse Name (if applicable)', type: 'text', placeholder: 'Enter spouse name' },
+              { name: 'familyMembers', label: 'Number of Family Members', type: 'number', placeholder: 'Enter number of family members' },
+              { name: 'occupation', label: 'Occupation', type: 'text', placeholder: 'e.g. Homemaker, Teacher, Business' },
+              { name: 'interests', label: 'Interests', type: 'textarea', fullWidth: true, placeholder: 'What areas interest you most? (home programs, Gita classes, seva, etc.)' },
             ]}
           />
         </div>

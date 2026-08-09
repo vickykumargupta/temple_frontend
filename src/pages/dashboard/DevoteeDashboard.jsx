@@ -50,10 +50,10 @@ export default function DevoteeDashboard({ data }) {
           accent={{ from: 'var(--theme-cta-from)', to: 'var(--theme-cta-to)' }}
         />
         <StatusCard
-          title="IMYF"
-          subtitle="Register for the Men & Youth Forum"
+          title="BhaktiVriksha"
+          subtitle="Register for families & senior devotees"
           registered={Boolean(imyfReg)}
-          details={imyfReg ? imyfReg.company || 'professional' : null}
+          details={imyfReg ? imyfReg.spouseName || 'family member' : null}
           accent={{ from: 'var(--theme-soft-from)', to: 'var(--theme-cta-from)' }}
         />
       </div>
@@ -83,7 +83,7 @@ export default function DevoteeDashboard({ data }) {
           >
             <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full opacity-20" style={{ background: 'var(--theme-cta-to)' }}></div>
             <p className="text-4xl font-bold">{stats.imyf}</p>
-            <p className="mt-1 font-semibold tracking-wide uppercase text-sm" style={{ color: 'var(--theme-text-soft)' }}>IMYF</p>
+            <p className="mt-1 font-semibold tracking-wide uppercase text-sm" style={{ color: 'var(--theme-text-soft)' }}>BhaktiVriksha</p>
           </div>
           <div
             className="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg"

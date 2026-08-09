@@ -168,7 +168,7 @@ export default function AuthPage() {
                 : 'Create an account to register for events, join the forums and stay connected.'}
             </p>
             <div className="flex flex-wrap gap-2">
-              {['🙏 Janmashtami', '🎓 IYF', '🤝 IMYF', '📿 Bhakti'].map((tag) => (
+              {['🙏 Janmashtami', '🎓 IYF', '🙏 BhaktiVriksha', '📿 Bhakti'].map((tag) => (
                 <span
                   key={tag}
                   className="text-xs px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
