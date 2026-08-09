@@ -44,7 +44,7 @@ export default function RegistrationsOverTime({ trend }) {
           <Legend />
           <Area type="monotone" dataKey="Janmashtami" stroke={from} fill="url(#gradJm)" strokeWidth={2} />
           <Area type="monotone" dataKey="IYF" stroke={cta} fill="url(#gradIyf)" strokeWidth={2} />
-          <Area type="monotone" dataKey="IMYF" stroke={accent} fill="url(#gradImyf)" strokeWidth={2} />
+          <Area type="monotone" dataKey="IMYF" name="BhaktiVriksha" stroke={accent} fill="url(#gradImyf)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>
     </ChartCard>

@@ -2,7 +2,7 @@ import homeRoutes from './home/routes'
 import janmashtamiRoutes from './janmashtami/routes'
 import iyfRoutes from './iyf/routes'
 import imyfRoutes from './imyf/routes'
-import designSystemRoutes from './design-system/routes'
+// import designSystemRoutes from './design-system/routes'
 import dashboardRoutes from './dashboard/routes'
 
 const pageRoutes = [
@@ -10,7 +10,7 @@ const pageRoutes = [
   janmashtamiRoutes,
   iyfRoutes,
   imyfRoutes,
-  designSystemRoutes,
+  // designSystemRoutes,
   dashboardRoutes,
 ].flat()
 

@@ -9,7 +9,7 @@ export default function ProgramShare({ stats }) {
   const data = [
     { name: 'Janmashtami', value: stats.janmashtami },
     { name: 'IYF', value: stats.iyf },
-    { name: 'IMYF', value: stats.imyf },
+    { name: 'BhaktiVriksha', value: stats.imyf },
   ]
   const COLORS = [from, cta, accent]
   return (

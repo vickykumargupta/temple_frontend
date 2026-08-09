@@ -81,6 +81,7 @@ export default function IyfSection() {
             registerFn={registerIyf}
             intro="IYF is open to college students"
             fields={[
+              { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female'], placeholder: 'Select gender' },
               { name: 'fullName', label: 'Full Name', type: 'text', required: true, placeholder: 'Enter your full name' },
               { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Enter your email', defaultValue: email },
               { name: 'phone', label: 'Phone', type: 'tel', required: true, placeholder: 'Enter your phone number' },

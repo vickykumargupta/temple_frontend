@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function ImageCard({ src, fallbackSrc, title, subtitle }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
@@ -23,12 +25,25 @@ export function ImageCard({ src, fallbackSrc, title, subtitle }) {
   )
 }
 
-export function InfoCard({ icon, title, desc }) {
-  return (
-    <div className="bg-white rounded-2xl shadow-md p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+export function InfoCard({ icon, title, desc, to }) {
+  const inner = (
+    <>
       <div className="text-4xl mb-4">{icon}</div>
       <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
       <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-    </div>
+      {to && (
+        <span className="mt-4 inline-flex items-center text-sm font-semibold" style={{ color: 'var(--theme-cta-from)' }}>
+          Learn more →
+        </span>
+      )}
+    </>
+  )
+  const cls = 'block bg-white rounded-2xl shadow-md p-7 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 h-full'
+  return to ? (
+    <Link to={to} className={cls}>
+      {inner}
+    </Link>
+  ) : (
+    <div className={cls}>{inner}</div>
   )
 }

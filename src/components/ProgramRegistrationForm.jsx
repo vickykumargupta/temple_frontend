@@ -104,7 +104,22 @@ function ProgramRegistrationForm({ title, program, registerFn, fields, intro }) 
               <label htmlFor={field.name} className={labelClass}>
                 {field.label} {field.required && <span className="text-red-500">*</span>}
               </label>
-              {field.type === 'textarea' ? (
+              {field.type === 'select' ? (
+                <select
+                  id={field.name}
+                  name={field.name}
+                  required={field.required}
+                  value={form[field.name]}
+                  onChange={handleChange}
+                  className={`${inputClass} cursor-pointer`}
+                  style={{ '--tw-ring-color': 'var(--theme-cta-from)', borderColor: 'var(--theme-cta-from)' }}
+                >
+                  <option value="">{field.placeholder || `Select ${field.label}`}</option>
+                  {field.options?.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              ) : field.type === 'textarea' ? (
                 <textarea
                   id={field.name}
                   name={field.name}
