@@ -17,7 +17,7 @@ export default function Navbar() {
     { to: '/iyf', label: 'IYF' },
     // { to: '/design-system', label: 'Design System' },
     { to: '/imyf', label: 'BhaktiVriksha' },
-    ...(isAdmin ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
+    ...(auth ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
   ]
 
   function handleAuthAction() {

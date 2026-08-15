@@ -235,22 +235,28 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="rounded-2xl p-8" style={{ background: 'var(--theme-card-bg)' }}>
               <h3 className="text-xl font-bold text-gray-800 mb-4">📍 Address</h3>
-              <p className="text-gray-600">
-                ISKCON Sri Sri Radha Krishna Mandir,
-                KR Puram, Bangalore,
-                Karnataka, India
-              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=13.0047,77.6875"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-[var(--theme-cta-from)] transition-colors inline-block"
+              >
+                13.0047° N, 77.6875° E<br />
+                Sunrise Arcade, Kodigehalli Main Rd,<br />
+                Sri Satya Sai Baba Layout, Ayyappa Nagar,<br />
+                KR Puram, Bengaluru, Karnataka 560036
+              </a>
             </div>
             <div className="rounded-2xl p-8 space-y-4" style={{ background: 'var(--theme-card-bg)' }}>
               <h3 className="text-xl font-bold text-gray-800">📞 Contact</h3>
               <p className="text-gray-600">
-                <span className="font-semibold">Phone:</span> +91 80000 00000
+                <span className="font-semibold">Mobile No:</span> 9110729142
               </p>
               <p className="text-gray-600">
-                <span className="font-semibold">Email:</span> info@iskconkrpuram.org
+                <span className="font-semibold">Email:</span> <a href="mailto:info@iskconbanglorekrpuram.com" className="hover:text-[var(--theme-cta-from)]">info@iskconbanglorekrpuram.com</a>
               </p>
               <p className="text-gray-600">
-                <span className="font-semibold">Office Hours:</span> 9:00 AM – 1:00 PM, 4:00 PM – 8:00 PM
+                <span className="font-semibold">Temple Timings:</span> 4:30 AM to 12:00 PM, 3:00 PM to 08:30 PM
               </p>
             </div>
           </div>

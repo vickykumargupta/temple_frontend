@@ -80,7 +80,7 @@ function RegistrationForm() {
         Devotee Registration
       </h2>
 
-      <Toast type={toast?.type} message={toast?.text} onClose={() => setToast(null)} />
+      <Toast type={toast?.type} message={toast?.text} program="Janmashtami" onClose={() => setToast(null)} />
 
       {message && (
         <div
