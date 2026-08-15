@@ -124,14 +124,14 @@ export default function WisdomSharingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/imyf"
+              to="/bhakti-viksha"
               className="bg-white font-bold px-8 py-3 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105"
               style={{ color: 'var(--theme-cta-from)' }}
             >
               Back to BhaktiVriksha
             </Link>
             <Link
-              to="/imyf#register"
+              to="/bhakti-viksha#register"
               className="bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3 rounded-full border border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >
               Join the Reading Circle

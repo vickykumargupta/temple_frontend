@@ -3,7 +3,7 @@ import { InfoCard } from '../../components/ui'
 
 const IMG = {
   kirtan:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ISKCON_Tirupati_Pushpa_Abhisek2.JPG/960px-ISKCON_Tirupati_Pushpa_Abhisek2.JPG',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ISKCON_Tirupati_Pushpa_Abhisec2.JPG/960px-ISKCON_Tirupati_Pushpa_Abhisec2.JPG',
   kirtanChildren:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Kirtan_with_Children.jpg/960px-Kirtan_with_Children.jpg',
   kirtanMoody:
@@ -111,14 +111,14 @@ export default function HouseProgramPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/imyf"
+              to="/bhakti-viksha"
               className="text-white font-bold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105"
               style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
             >
               Back to BhaktiVriksha
             </Link>
             <Link
-              to="/imyf#register"
+              to="/bhakti-viksha#register"
               className="font-semibold px-8 py-3 rounded-full border-2 transition-all duration-300 hover:scale-105"
               style={{ borderColor: 'var(--theme-cta-from)', color: 'var(--theme-cta-from)' }}
             >

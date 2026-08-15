@@ -1,11 +1,11 @@
 import { InfoCard } from '../../components/ui'
 import ProgramRegistrationForm from '../../components/ProgramRegistrationForm'
-import { registerImyf, getAuth } from '../../services/api'
+import { registerBhaktiViksha, getAuth } from '../../services/api'
 
-export default function ImyfSection() {
+export default function BhaktiVikshaSection() {
   const email = getAuth()?.email || ''
   return (
-    <section id="imyf" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, #ffffff, var(--theme-soft-from))' }}>
+    <section id="bhakti-viksha" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, #ffffff, var(--theme-soft-from))' }}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-14">
           <div className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
@@ -28,7 +28,7 @@ export default function ImyfSection() {
             icon="🏡"
             title="House Program"
             desc="Small gatherings in devotee homes — chant, discuss scripture and share prasadam in a warm setting."
-            to="/imyf/house-program"
+            to="/bhakti-viksha/house-program"
           />
           <InfoCard
             icon="📿"
@@ -39,7 +39,7 @@ export default function ImyfSection() {
             icon="🧠"
             title="Wisdom Sharing"
             desc="Learnings from the Bhagavad-gita and Srila Prabhupada, shared in an accessible, relatable way."
-            to="/imyf/wisdom-sharing"
+            to="/bhakti-viksha/wisdom-sharing"
           />
           <InfoCard
             icon="💞"
@@ -80,7 +80,7 @@ export default function ImyfSection() {
           <ProgramRegistrationForm
             title="BhaktiVriksha Registration"
             program="BhaktiVriksha"
-            registerFn={registerImyf}
+            registerFn={registerBhaktiViksha}
             intro="BhaktiVriksha is open to married & senior devotees and families"
             fields={[
               { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female'], placeholder: 'Select gender' },

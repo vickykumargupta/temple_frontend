@@ -15,7 +15,7 @@ export default function RegistrationsByProgram({ stats }) {
   const data = [
     { program: 'Janmashtami', count: stats.janmashtami },
     { program: 'IYF', count: stats.iyf },
-    { program: 'BhaktiVriksha', count: stats.imyf },
+    { program: 'BhaktiVriksha', count: stats.bhaktiViksha },
   ]
   return (
     <ChartCard title="Registrations by Program" subtitle="Total sign-ups per program">

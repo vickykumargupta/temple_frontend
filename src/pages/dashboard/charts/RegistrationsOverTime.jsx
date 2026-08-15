@@ -32,7 +32,7 @@ export default function RegistrationsOverTime({ trend }) {
               <stop offset="5%" stopColor={cta} stopOpacity={0.6} />
               <stop offset="95%" stopColor={cta} stopOpacity={0} />
             </linearGradient>
-            <linearGradient id="gradImyf" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="gradBhaktiVriksha" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={accent} stopOpacity={0.6} />
               <stop offset="95%" stopColor={accent} stopOpacity={0} />
             </linearGradient>
@@ -44,7 +44,7 @@ export default function RegistrationsOverTime({ trend }) {
           <Legend />
           <Area type="monotone" dataKey="Janmashtami" stroke={from} fill="url(#gradJm)" strokeWidth={2} />
           <Area type="monotone" dataKey="IYF" stroke={cta} fill="url(#gradIyf)" strokeWidth={2} />
-          <Area type="monotone" dataKey="IMYF" name="BhaktiVriksha" stroke={accent} fill="url(#gradImyf)" strokeWidth={2} />
+          <Area type="monotone" dataKey="BhaktiVriksha" stroke={accent} fill="url(#gradBhaktiVriksha)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>
     </ChartCard>
