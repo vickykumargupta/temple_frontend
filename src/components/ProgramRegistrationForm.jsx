@@ -83,7 +83,7 @@ function ProgramRegistrationForm({ title, program, registerFn, fields, intro }) 
       </h2>
       {intro && <p className="text-sm text-gray-500 text-center mb-6">{intro}</p>}
 
-      <Toast type={toast?.type} message={toast?.text} onClose={() => setToast(null)} />
+      <Toast type={toast?.type} message={toast?.text} program={program} onClose={() => setToast(null)} />
 
       {message && (
         <div
