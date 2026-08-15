@@ -383,7 +383,16 @@ export default function AuthPage() {
             </button>
           </p>
 
-          <p className="text-center text-base text-gray-400 mt-7">
+          <div className="text-center text-xs mt-4">
+            <p className="text-gray-400">
+              By continuing, you agree to our{' '}
+              <Link to="/terms" className="font-medium text-gray-600 hover:text-[var(--theme-cta-from)] hover:underline transition-colors">Terms</Link>
+              {' '}and{' '}
+              <Link to="/privacy-policy" className="font-medium text-gray-600 hover:text-[var(--theme-cta-from)] hover:underline transition-colors">Privacy Policy</Link>.
+            </p>
+          </div>
+
+          <p className="text-center text-xs text-gray-400 mt-6">
             <Link to="/" className="hover:underline">← Back to home</Link>
           </p>
         </div>

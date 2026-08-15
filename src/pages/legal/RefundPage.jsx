@@ -50,8 +50,8 @@ export default function RefundPage() {
         <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl space-y-1 text-sm border border-gray-100 dark:border-gray-800">
           <p><strong>Finance Department</strong></p>
           <p>ISKCON Sri Sri Radha Krishna Mandir</p>
-          <p>Email: <a href="mailto:info@iskconkrpuram.org" className="text-blue-600 dark:text-blue-400 hover:underline">info@iskconkrpuram.org</a></p>
-          <p>Phone: +91 80000 00000</p>
+          <p>Email: <a href="mailto:info@iskconbangalorekrpuram.com" className="text-blue-600 dark:text-blue-400 hover:underline">info@iskconbangalorekrpuram.com</a></p>
+          <p>Phone: +91 9110729142</p>
         </div>
       </section>
     </LegalLayout>

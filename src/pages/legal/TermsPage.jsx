@@ -72,7 +72,8 @@ export default function TermsPage() {
         <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl space-y-1 text-sm border border-gray-100 dark:border-gray-800">
           <p><strong>ISKCON Sri Sri Radha Krishna Mandir</strong></p>
           <p>KR Puram, Bangalore, Karnataka, India</p>
-          <p>Email: <a href="mailto:info@iskconkrpuram.org" className="text-blue-600 dark:text-blue-400 hover:underline">info@iskconkrpuram.org</a></p>
+          <p>Email: <a href="mailto:info@iskconbangalorekrpuram.com" className="text-blue-600 dark:text-blue-400 hover:underline">info@iskconbangalorekrpuram.com</a></p>
+          <p>Phone: +91 9110729142</p>
         </div>
       </section>
     </LegalLayout>

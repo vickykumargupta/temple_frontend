@@ -23,31 +23,37 @@ export default function IyfSection() {
             icon="📖"
             title="Gita Classes"
             desc="Weekly classes and courses like Discover Your Self (DYS), helping students understand the science of the soul."
+            to="/iyf/gita-classes"
           />
           <InfoCard
             icon="🗣️"
             title="Personality Development"
             desc="Public speaking, leadership, debates and soft-skill training to build confidence and character."
+            to="/iyf/personality-development"
           />
           <InfoCard
             icon="🎵"
             title="Kirtan & Culture"
             desc="Music, drama, mantra meditation and cultural programs that make spiritual life joyful."
+            to="/iyf/kirtan-culture"
           />
           <InfoCard
             icon="🧘"
             title="Retreats & Camps"
             desc="Yoga retreats, picnics and residential camps to rejuvenate the mind, body and soul."
+            to="/iyf/retreats-camps"
           />
           <InfoCard
             icon="🏫"
             title="Campus Preaching"
             desc="Seminars and programs in colleges and companies spreading Vedic knowledge across campuses."
+            to="/iyf/campus-preaching"
           />
           <InfoCard
             icon="🙏"
             title="Community Service"
             desc="Harinama sankirtana, book distribution and serving prasadam to the wider community."
+            to="/iyf/community-service"
           />
         </div>
 
