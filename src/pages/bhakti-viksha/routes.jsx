@@ -1,18 +1,18 @@
-import ImyfSection from './ImyfSection'
+import BhaktiVikshaSection from './BhaktiVikshaSection'
 import HouseProgramPage from './HouseProgramPage'
 import WisdomSharingPage from './WisdomSharingPage'
 
 export default [
   {
-    path: '/imyf',
-    element: <ImyfSection />,
+    path: '/bhakti-viksha',
+    element: <BhaktiVikshaSection />,
   },
   {
-    path: '/imyf/house-program',
+    path: '/bhakti-viksha/house-program',
     element: <HouseProgramPage />,
   },
   {
-    path: '/imyf/wisdom-sharing',
+    path: '/bhakti-viksha/wisdom-sharing',
     element: <WisdomSharingPage />,
   },
 ]

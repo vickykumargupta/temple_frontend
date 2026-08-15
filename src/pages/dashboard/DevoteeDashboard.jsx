@@ -30,7 +30,7 @@ export default function DevoteeDashboard({ data }) {
   const { my, stats } = data
   const janmashtamiReg = my?.janmashtami
   const iyfReg = my?.iyf?.[0]
-  const imyfReg = my?.imyf?.[0]
+  const bhaktiVikshaReg = my?.bhaktiViksha?.[0]
 
   return (
     <>
@@ -52,8 +52,8 @@ export default function DevoteeDashboard({ data }) {
         <StatusCard
           title="BhaktiVriksha"
           subtitle="Register for families & senior devotees"
-          registered={Boolean(imyfReg)}
-          details={imyfReg ? imyfReg.spouseName || 'family member' : null}
+          registered={Boolean(bhaktiVikshaReg)}
+          details={bhaktiVikshaReg ? bhaktiVikshaReg.spouseName || 'family member' : null}
           accent={{ from: 'var(--theme-soft-from)', to: 'var(--theme-cta-from)' }}
         />
       </div>
@@ -82,7 +82,7 @@ export default function DevoteeDashboard({ data }) {
             style={{ background: 'linear-gradient(135deg, var(--theme-soft-from), var(--theme-cta-from))' }}
           >
             <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full opacity-20" style={{ background: 'var(--theme-cta-to)' }}></div>
-            <p className="text-4xl font-bold">{stats.imyf}</p>
+            <p className="text-4xl font-bold">{stats.bhaktiViksha}</p>
             <p className="mt-1 font-semibold tracking-wide uppercase text-sm" style={{ color: 'var(--theme-text-soft)' }}>BhaktiVriksha</p>
           </div>
           <div

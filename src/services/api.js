@@ -22,8 +22,8 @@ export async function registerIyf(data) {
   return json
 }
 
-export async function registerImyf(data) {
-  const res = await fetch(`${API_BASE}/imyf/register`, {
+export async function registerBhaktiViksha(data) {
+  const res = await fetch(`${API_BASE}/bhakti-viksha/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),

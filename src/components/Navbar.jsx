@@ -16,7 +16,7 @@ export default function Navbar() {
     { to: '/janmashtami', label: 'Janmashtami' },
     { to: '/iyf', label: 'IYF' },
     // { to: '/design-system', label: 'Design System' },
-    { to: '/imyf', label: 'BhaktiVriksha' },
+    { to: '/bhakti-viksha', label: 'BhaktiVriksha' },
     ...(auth ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
   ]
 

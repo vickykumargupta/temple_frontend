@@ -4,7 +4,7 @@ import { getDashboardStats, getDashboardCharts, getMyDashboard, getAuth, clearAu
 import { useTheme } from '../../context/ThemeContext'
 import JanmashtamiDashboard from './janmashtami/JanmashtamiDashboard'
 import IyfDashboard from './iyf/IyfDashboard'
-import ImyfDashboard from './imyf/ImyfDashboard'
+import BhaktiVikshaDashboard from './bhakti-viksha/BhaktiVikshaDashboard'
 import DonationDashboard from './donation/DonationDashboard'
 import DonationManager from './donation/DonationManager'
 import WelcomeBanner from './WelcomeBanner'
@@ -73,7 +73,7 @@ export default function Dashboard() {
   if (!isAdmin && devoteeData) {
     const name = devoteeData.my?.janmashtami?.fullName ||
                  devoteeData.my?.iyf?.[0]?.fullName ||
-                 devoteeData.my?.imyf?.[0]?.fullName ||
+                 devoteeData.my?.bhaktiViksha?.[0]?.fullName ||
                  ''
     return (
       <div className="py-12">
@@ -93,7 +93,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <JanmashtamiDashboard count={stats?.janmashtami ?? 0} />
           <IyfDashboard count={stats?.iyf ?? 0} />
-          <ImyfDashboard count={stats?.imyf ?? 0} />
+          <BhaktiVikshaDashboard count={stats?.bhaktiViksha ?? 0} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">

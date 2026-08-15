@@ -19,7 +19,7 @@ export default function Footer() {
             <Link to="/" className="transition hover:text-white" style={{ color: 'var(--theme-text-soft)' }}>Home</Link>
             <Link to="/janmashtami" className="transition hover:text-white" style={{ color: 'var(--theme-text-soft)' }}>Janmashtami</Link>
             <Link to="/iyf" className="transition hover:text-white" style={{ color: 'var(--theme-text-soft)' }}>IYF</Link>
-            <Link to="/imyf" className="transition hover:text-white" style={{ color: 'var(--theme-text-soft)' }}>BhaktiVriksha</Link>
+            <Link to="/bhakti-viksha" className="transition hover:text-white" style={{ color: 'var(--theme-text-soft)' }}>BhaktiVriksha</Link>
           </div>
         </div>
 

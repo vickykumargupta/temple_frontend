@@ -9,7 +9,7 @@ import {
 } from '../../services/api'
 
 const inputBase =
-  'w-full py-3 pl-11 pr-4 rounded-xl border transition bg-white focus:outline-none'
+  'w-full py-4 pl-12 pr-5 rounded-xl border transition bg-white focus:outline-none text-base'
 
 const inputStyle = {
   '--tw-ring-color': 'var(--theme-cta-from)',
@@ -141,37 +141,37 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-4xl grid md:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="w-full max-w-7xl grid md:grid-cols-2 min-h-[900px] rounded-3xl overflow-hidden shadow-2xl">
         <div
-          className="hidden md:flex flex-col justify-between p-10 text-white relative overflow-hidden"
+          className="hidden md:flex flex-col justify-between p-14 lg:p-20 text-white relative overflow-hidden"
           style={{ background: 'linear-gradient(135deg, var(--theme-from), var(--theme-via), var(--theme-to))' }}
         >
-          <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full opacity-20 blur-2xl" style={{ background: 'var(--theme-accent)' }}></div>
-          <div className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full opacity-15 blur-2xl" style={{ background: 'var(--theme-cta-to)' }}></div>
+          <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full opacity-20 blur-2xl" style={{ background: 'var(--theme-accent)' }}></div>
+          <div className="absolute -bottom-20 -left-10 w-80 h-80 rounded-full opacity-15 blur-2xl" style={{ background: 'var(--theme-cta-to)' }}></div>
 
           <div className="relative">
-            <div className="flex items-center gap-3 mb-10">
-              <img src="/images/iskcon-logo.svg" alt="ISKCON logo" className="w-12 h-12" />
+            <div className="flex items-center gap-3 mb-12">
+              <img src="/images/iskcon-logo.svg" alt="ISKCON logo" className="w-16 h-16" />
               <div>
-                <p className="font-bold text-lg leading-tight">ISKCON KR Puram</p>
-                <p className="text-xs" style={{ color: 'var(--theme-text-soft)' }}>Bangalore</p>
+                <p className="font-bold text-2xl leading-tight">ISKCON KR Puram</p>
+                <p className="text-base" style={{ color: 'var(--theme-text-soft)' }}>Bangalore</p>
               </div>
             </div>
-            <h2 className="text-3xl font-bold mb-4 leading-tight">
+            <h2 className="text-5xl font-bold mb-6 leading-tight">
               Welcome to
               <br />
               Krishna Consciousness
             </h2>
-            <p className="text-sm mb-8 max-w-xs" style={{ color: 'var(--theme-text-soft)' }}>
+            <p className="text-lg mb-10 max-w-md" style={{ color: 'var(--theme-text-soft)' }}>
               {mode === 'login'
                 ? 'Sign in to access your dashboard, registrations and community updates.'
                 : 'Create an account to register for events, join the forums and stay connected.'}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
               {['🙏 Janmashtami', '🎓 IYF', '🙏 BhaktiVriksha', '📿 Bhakti'].map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                  className="text-base px-5 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
                 >
                   {tag}
                 </span>
@@ -179,11 +179,11 @@ export default function AuthPage() {
             </div>
           </div>
 
-          <p className="relative text-xs opacity-80">Hare Krishna Hare Krishna, Krishna Krishna Hare Hare</p>
+          <p className="relative text-base opacity-80">Hare Krishna Hare Krishna, Krishna Krishna Hare Hare</p>
         </div>
 
         <div
-          className="p-8 md:p-10"
+          className="p-10 md:p-14 lg:p-16 flex flex-col"
           style={{ background: 'linear-gradient(to bottom, var(--theme-soft-from), var(--theme-soft-to))' }}
         >
           <div className="flex items-center gap-2 mb-6 md:hidden">
@@ -191,22 +191,22 @@ export default function AuthPage() {
             <p className="font-bold text-gray-800">ISKCON KR Puram</p>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-4xl font-bold text-gray-800">
             {mode === 'login' ? 'Welcome back' : 'Create your account'}
           </h1>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-lg text-gray-500 mb-8">
             {mode === 'login'
               ? 'Enter your details to sign in'
               : 'Join the ISKCON KR Puram community'}
           </p>
 
-          <div className="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-white/70 mb-6">
+          <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-white/70 mb-7">
             {['login', 'signup'].map((m) => (
               <button
                 key={m}
                 type="button"
                 onClick={() => switchMode(m)}
-                className={`py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer ${
+                className={`py-3.5 rounded-xl text-lg font-semibold transition cursor-pointer ${
                   mode === m ? 'text-white shadow' : 'text-gray-500 hover:text-gray-700'
                 }`}
                 style={mode === m ? { background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' } : undefined}
@@ -217,14 +217,14 @@ export default function AuthPage() {
           </div>
 
           {mode === 'signup' && (
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-sm text-gray-500">Registering as</span>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-lg text-gray-500">Registering as</span>
               {['user', 'admin'].map((r) => (
                 <button
                   key={r}
                   type="button"
                   onClick={() => switchRole(r)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition cursor-pointer ${
+                  className={`px-6 py-2.5 rounded-full text-lg font-semibold border transition cursor-pointer ${
                     role === r
                       ? 'text-white border-transparent'
                       : 'text-gray-600 border-gray-300 bg-white hover:border-gray-400'
@@ -243,10 +243,10 @@ export default function AuthPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="space-y-5">
             {mode === 'signup' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field icon={<span className="text-sm">👤</span>} label="Full Name">
+                <Field icon={<span className="text-base">👤</span>} label="Full Name">
                   <input
                     name="fullName"
                     type="text"
@@ -258,7 +258,7 @@ export default function AuthPage() {
                   />
                 </Field>
 
-                <Field icon={<span className="text-sm">📞</span>} label="Phone">
+                <Field icon={<span className="text-base">📞</span>} label="Phone">
                   <input
                     name="phone"
                     type="tel"
@@ -270,7 +270,7 @@ export default function AuthPage() {
                   />
                 </Field>
 
-                <Field icon={<span className="text-sm">✉️</span>} label="Email">
+                <Field icon={<span className="text-base">✉️</span>} label="Email">
                   <input
                     name="email"
                     type="email"
@@ -282,7 +282,7 @@ export default function AuthPage() {
                   />
                 </Field>
 
-                <Field icon={<span className="text-sm">🔒</span>} label="Password">
+                <Field icon={<span className="text-base">🔒</span>} label="Password">
                   <input
                     name="password"
                     type={showPassword ? 'text' : 'password'}
@@ -295,7 +295,7 @@ export default function AuthPage() {
                   {pwToggle(() => setShowPassword((v) => !v))}
                 </Field>
 
-                <Field icon={<span className="text-sm">🔐</span>} label="Confirm Password" className="sm:col-span-2">
+                <Field icon={<span className="text-base">🔐</span>} label="Confirm Password" className="sm:col-span-2">
                   <input
                     name="confirmPassword"
                     type={showConfirm ? 'text' : 'password'}
@@ -309,7 +309,7 @@ export default function AuthPage() {
                 </Field>
 
                 {role === 'user' && (
-                  <Field icon={<span className="text-sm">📍</span>} label="Address" className="sm:col-span-2">
+                  <Field icon={<span className="text-base">📍</span>} label="Address" className="sm:col-span-2">
                     <input
                       name="address"
                       type="text"
@@ -324,7 +324,7 @@ export default function AuthPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field icon={<span className="text-sm">✉️</span>} label="Email">
+                <Field icon={<span className="text-base">✉️</span>} label="Email">
                   <input
                     name="email"
                     type="email"
@@ -336,7 +336,7 @@ export default function AuthPage() {
                   />
                 </Field>
 
-                <Field icon={<span className="text-sm">🔒</span>} label="Password">
+                <Field icon={<span className="text-base">🔒</span>} label="Password">
                   <input
                     name="password"
                     type={showPassword ? 'text' : 'password'}
@@ -354,7 +354,7 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full text-white font-bold py-3 px-6 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed text-lg cursor-pointer hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
+              className="w-full text-white font-bold py-4 px-6 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed text-xl cursor-pointer hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
               style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
             >
               {submitting ? (
@@ -372,7 +372,7 @@ export default function AuthPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-lg text-gray-500 mt-7">
             {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
             <button
               onClick={() => switchMode(mode === 'login' ? 'signup' : 'login')}
@@ -383,7 +383,7 @@ export default function AuthPage() {
             </button>
           </p>
 
-          <p className="text-center text-xs text-gray-400 mt-6">
+          <p className="text-center text-base text-gray-400 mt-7">
             <Link to="/" className="hover:underline">← Back to home</Link>
           </p>
         </div>

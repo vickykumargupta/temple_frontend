@@ -42,11 +42,11 @@ export default function HomePage() {
               IYF — Youth Forum
             </a>
             <a
-              href="/imyf"
-              className="bg-white/10 hover:bg-white/20 text-white font-semibold text-lg px-8 py-4 rounded-full border border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-            >
-              BhaktiVriksha — Families
-            </a>
+href="/bhakti-viksha"
+               className="bg-white/10 hover:bg-white/20 text-white font-semibold text-lg px-8 py-4 rounded-full border border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+             >
+               BhaktiVriksha — Families
+             </a>
           </div>
         </div>
       </section>
@@ -203,7 +203,7 @@ export default function HomePage() {
                 A family-centric community for married couples, senior devotees and families to grow together in devotion.
               </p>
               <a
-                href="/imyf"
+                href="/bhakti-viksha"
                 className="inline-block bg-white font-bold px-8 py-3 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105"
                 style={{ color: 'var(--theme-cta-from)' }}
               >

@@ -131,7 +131,7 @@ export default function DesignSystemSection() {
         </div>
       </section>
 
-      {/* ===================== IYF / IMYF HIGHLIGHTS ===================== */}
+      {/* ===================== YOUTH PROGRAMS HIGHLIGHTS ===================== */}
       <section
         className="py-20"
         style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}
@@ -145,7 +145,7 @@ export default function DesignSystemSection() {
               Youth Programs
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-              IYF & IMYF
+              IYF & BhaktiVriksha
             </h2>
             <div
               className="w-20 h-1 mx-auto mb-4 rounded-full"
@@ -177,17 +177,17 @@ export default function DesignSystemSection() {
               className="text-white rounded-3xl p-10 text-center"
               style={{ background: 'linear-gradient(135deg, var(--theme-via), var(--theme-to))' }}
             >
-              <h3 className="text-3xl font-bold mb-3">IMYF</h3>
-              <p className="text-sm font-semibold text-yellow-100 mb-4">ISKCON Men & Youth Forum</p>
+              <h3 className="text-3xl font-bold mb-3">BhaktiVriksha</h3>
+              <p className="text-sm font-semibold text-yellow-100 mb-4">ISKCON Families & Senior Devotees</p>
               <p className="mb-8" style={{ color: 'var(--theme-text-soft)' }}>
-                Spiritual and personal growth of young men — discipline, responsibility and devotion.
+                A family-centric community for married couples, senior devotees and families to grow together in devotion.
               </p>
               <a
-                href="/imyf"
+                href="/bhakti-viksha"
                 className="inline-block bg-white font-bold px-8 py-3 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105"
                 style={{ color: 'var(--theme-cta-from)' }}
               >
-                Explore IMYF
+                Explore BhaktiVriksha
               </a>
             </div>
           </div>
