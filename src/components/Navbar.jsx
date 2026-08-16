@@ -112,6 +112,13 @@ export default function Navbar() {
               )}
             </div>
           )}
+          <Link
+            to="/donate"
+            className="hidden sm:inline-block text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90"
+            style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+          >
+            Donate
+          </Link>
           <button
             onClick={handleAuthAction}
             className="text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90"

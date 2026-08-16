@@ -82,7 +82,7 @@ href="/bhakti-viksha"
         className="py-20"
         style={{ background: 'linear-gradient(to bottom, var(--theme-soft-from), var(--theme-soft-to))' }}
       >
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <div
               className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5"
@@ -114,7 +114,7 @@ href="/bhakti-viksha"
 
       {/* ===================== PROGRAMS & EVENTS ===================== */}
       <section id="programs" className="bg-white py-20">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <div
               className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5"
@@ -156,7 +156,7 @@ href="/bhakti-viksha"
         className="py-20"
         style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}
       >
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <div
               className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5"
@@ -216,7 +216,7 @@ href="/bhakti-viksha"
 
       {/* ===================== CONTACT / LOCATION ===================== */}
       <section id="contact" className="bg-white py-20">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <div
               className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5"
