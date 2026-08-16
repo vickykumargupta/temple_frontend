@@ -46,7 +46,7 @@ export default function JanmashtamiSection() {
         </div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_60%)]"></div>
 
-        <div className="relative max-w-6xl mx-auto px-6 md:px-12 py-24 md:py-32">
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
           <div className="flex items-center justify-center gap-4 md:gap-8">
             <div className="hidden md:block w-36 lg:w-48 flex-shrink-0 self-center">
               <img
@@ -103,7 +103,7 @@ export default function JanmashtamiSection() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <marquee
           ref={marqueeRef}
           onMouseEnter={handleMarqueeEnter}
@@ -117,7 +117,7 @@ export default function JanmashtamiSection() {
       </div>
 
       <div className="bg-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-6xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
             About the Celebration
           </h2>
@@ -132,7 +132,7 @@ export default function JanmashtamiSection() {
       </div>
 
       <div className="py-16" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-from), var(--theme-soft-to))' }}>
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4">
             The Legacy
           </h2>
@@ -170,7 +170,7 @@ export default function JanmashtamiSection() {
       </div>
 
       <div id="register" className="bg-white py-16 scroll-mt-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             Register for Janmashtami
           </h2>

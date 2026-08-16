@@ -6,7 +6,7 @@ export default function IyfSection() {
   const email = getAuth()?.email || ''
   return (
     <section id="iyf" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}>
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-14">
           <div className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
             ISKCON Youth Forum
@@ -73,7 +73,7 @@ export default function IyfSection() {
       </div>
 
       <div id="register" className="bg-white py-16 scroll-mt-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             Join IYF
           </h2>
