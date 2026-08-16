@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getTheme, updateTheme, WS_URL } from '../services/api'
+import { derivePalette, applyPalette, clearPalette, swatchGradient } from '../lib/colorUtils'
 
 export const THEMES = {
   saffron: {
@@ -52,24 +53,39 @@ export const THEMES = {
   },
 }
 
+export const CUSTOM_THEME_KEY = 'custom'
 const VALID = new Set(Object.keys(THEMES))
+const DEFAULT_PRIMARY = '#2563eb'
 
 const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('blue')
+  const [customPrimary, setCustomPrimary] = useState(null)
+
+  const isCustom = theme === CUSTOM_THEME_KEY
 
   useEffect(() => {
     getTheme()
       .then((t) => {
-        if (VALID.has(t)) setTheme(t)
+        if (typeof t === 'string' && VALID.has(t)) {
+          setTheme(t)
+        } else if (t && t.type === CUSTOM_THEME_KEY && typeof t.primary === 'string') {
+          setCustomPrimary(t.primary)
+          setTheme(CUSTOM_THEME_KEY)
+        }
       })
       .catch(() => {})
   }, [])
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-  }, [theme])
+    if (theme === CUSTOM_THEME_KEY) {
+      applyPalette(derivePalette(customPrimary || DEFAULT_PRIMARY))
+    } else {
+      clearPalette()
+    }
+  }, [theme, customPrimary])
 
   useEffect(() => {
     let socket = null
@@ -81,8 +97,13 @@ export function ThemeProvider({ children }) {
       socket.onmessage = (event) => {
         try {
           const msg = JSON.parse(event.data)
-          if (msg.channel === 'theme' && VALID.has(msg.theme)) {
-            setTheme(msg.theme)
+          if (msg.channel === 'theme') {
+            if (typeof msg.theme === 'string' && VALID.has(msg.theme)) {
+              setTheme(msg.theme)
+            } else if (msg.theme && msg.theme.type === CUSTOM_THEME_KEY && typeof msg.theme.primary === 'string') {
+              setCustomPrimary(msg.theme.primary)
+              setTheme(CUSTOM_THEME_KEY)
+            }
           }
         } catch {}
       }
@@ -103,13 +124,20 @@ export function ThemeProvider({ children }) {
   }, [])
 
   function changeTheme(next) {
-    if (!VALID.has(next)) return
-    setTheme(next)
-    updateTheme(next).catch(() => {})
+    if (typeof next === 'string' && VALID.has(next)) {
+      setTheme(next)
+      updateTheme(next).catch(() => {})
+    } else if (next && next.type === CUSTOM_THEME_KEY && typeof next.primary === 'string') {
+      setCustomPrimary(next.primary)
+      setTheme(CUSTOM_THEME_KEY)
+      updateTheme(next).catch(() => {})
+    }
   }
 
+  const customColors = isCustom ? derivePalette(customPrimary || DEFAULT_PRIMARY) : THEMES[theme]?.colors
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: changeTheme, themes: THEMES, colors: THEMES[theme]?.colors }}>
+    <ThemeContext.Provider value={{ theme, setTheme: changeTheme, themes: THEMES, colors: customColors, isCustom, customPrimary, swatchGradient }}>
       {children}
     </ThemeContext.Provider>
   )

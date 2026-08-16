@@ -1,13 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { CUSTOM_THEME_KEY } from '../context/ThemeContext'
 import { getAuth, clearAuth } from '../services/api'
 
 export default function Navbar() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { theme, setTheme, themes } = useTheme()
+  const { theme, setTheme, themes, isCustom, customPrimary, swatchGradient } = useTheme()
   const [showThemes, setShowThemes] = useState(false)
+  const themesRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (themesRef.current && !themesRef.current.contains(e.target)) {
+        setShowThemes(false)
+      }
+    }
+    function handleKey(e) {
+      if (e.key === 'Escape') setShowThemes(false)
+    }
+    if (showThemes) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keydown', handleKey)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [showThemes])
   const auth = getAuth()
   const isAdmin = auth?.role === 'admin'
 
@@ -59,12 +80,12 @@ export default function Navbar() {
             </Link>
           ))}
           {isAdmin && (
-            <div className="relative">
+            <div className="relative" ref={themesRef}>
               <button
                 onClick={() => setShowThemes(!showThemes)}
                 aria-label="Choose theme"
                 className="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer flex items-center justify-center relative"
-                style={{ background: themes[theme]?.swatch }}
+                style={{ background: isCustom ? swatchGradient(customPrimary) : themes[theme]?.swatch }}
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -108,6 +129,24 @@ export default function Navbar() {
                       {theme === key && <span className="ml-auto text-xs">✓</span>}
                     </button>
                   ))}
+                  <div className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition cursor-pointer ${isCustom ? 'bg-gray-100 dark:bg-gray-700 font-semibold' : 'hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
+                    <label
+                      className="w-9 h-9 rounded-full border border-black/5 flex items-center justify-center cursor-pointer relative overflow-hidden"
+                      style={{ background: customPrimary ? swatchGradient(customPrimary) : undefined }}
+                    >
+                      <input
+                        type="color"
+                        value={customPrimary || '#2563eb'}
+                        onChange={(e) => {
+                          setTheme({ type: CUSTOM_THEME_KEY, primary: e.target.value })
+                        }}
+                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                        aria-label="Custom theme color"
+                      />
+                    </label>
+                    <span className="text-gray-700 dark:text-gray-200">Custom</span>
+                    <span className="ml-auto text-xs text-gray-400">pick a color</span>
+                  </div>
                 </div>
               )}
             </div>

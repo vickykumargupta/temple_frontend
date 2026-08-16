@@ -33,6 +33,35 @@ export async function registerBhaktiViksha(data) {
   return json
 }
 
+async function authedFetch(url) {
+  const token = getAdminToken()
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  const json = await res.json()
+  if (res.status === 401 || res.status === 403) {
+    clearAuth()
+    throw new Error('Authorization required. Please log in again.')
+  }
+  if (!res.ok) throw new Error(json.error || 'Failed to load data')
+  return json
+}
+
+export async function getJanmashtamiRegistrations() {
+  const json = await authedFetch(`${API_BASE}/register`)
+  return json.devotees
+}
+
+export async function getIyfRegistrations() {
+  const json = await authedFetch(`${API_BASE}/iyf/register`)
+  return json.registrations
+}
+
+export async function getBhaktiVikshaRegistrations() {
+  const json = await authedFetch(`${API_BASE}/bhakti-viksha/register`)
+  return json.registrations
+}
+
 export function getAuth() {
   try {
     return JSON.parse(localStorage.getItem('iskcon_auth'))
