@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { getDashboardStats, getDashboardCharts, getMyDashboard, getAuth, clearAuth } from '../../services/api'
 import { useTheme } from '../../context/ThemeContext'
 import JanmashtamiDashboard from './janmashtami/JanmashtamiDashboard'
@@ -91,9 +91,15 @@ export default function Dashboard() {
         <WelcomeBanner isAdmin />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <JanmashtamiDashboard count={stats?.janmashtami ?? 0} />
-          <IyfDashboard count={stats?.iyf ?? 0} />
-          <BhaktiVikshaDashboard count={stats?.bhaktiViksha ?? 0} />
+          <Link to="/dashboard/janmashtami">
+            <JanmashtamiDashboard count={stats?.janmashtami ?? 0} />
+          </Link>
+          <Link to="/dashboard/iyf">
+            <IyfDashboard count={stats?.iyf ?? 0} />
+          </Link>
+          <Link to="/dashboard/bhakti-viksha">
+            <BhaktiVikshaDashboard count={stats?.bhaktiViksha ?? 0} />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
