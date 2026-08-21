@@ -20,7 +20,7 @@ export default function JanmashtamiRegistrationsPage() {
           ← Back to Dashboard
         </Link>
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Janmashtami Registrations</h1>
-        <RegistrationsTable title="Janmashtami Celebration 2026" columns={COLUMNS} fetcher={getJanmashtamiRegistrations} />
+        <RegistrationsTable columns={COLUMNS} fetcher={getJanmashtamiRegistrations} />
       </div>
     </div>
   )

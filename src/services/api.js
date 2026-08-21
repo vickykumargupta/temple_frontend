@@ -80,8 +80,8 @@ export function getDevoteeToken() {
   return auth?.role === 'devotee' ? auth.token : null
 }
 
-export function setAuth({ token, role, email }) {
-  localStorage.setItem('iskcon_auth', JSON.stringify({ token, role, email }))
+export function setAuth({ token, role, email, isSuperAdmin }) {
+  localStorage.setItem('iskcon_auth', JSON.stringify({ token, role, email, isSuperAdmin }))
 }
 
 export function setAdminToken(token) {
@@ -112,6 +112,80 @@ export async function signupAdmin(data) {
   })
   const json = await res.json()
   if (!res.ok) throw new Error(json.error || 'Sign up failed')
+  return json
+}
+
+export async function getPendingAdmins() {
+  const json = await authedFetch(`${API_BASE}/admin-approval/pending`)
+  return json.admins
+}
+
+export async function getAllAdmins() {
+  const json = await authedFetch(`${API_BASE}/admin-approval/all`)
+  return json.admins
+}
+
+export async function createInvite(data) {
+  const token = getAdminToken()
+  const res = await fetch(`${API_BASE}/admin-invite`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  })
+  const json = await res.json()
+  if (res.status === 401 || res.status === 403) {
+    clearAuth()
+    throw new Error('Authorization required. Please log in again.')
+  }
+  if (!res.ok) throw new Error(json.error || 'Failed to send invite')
+  return json
+}
+
+export async function validateInvite(token) {
+  const res = await fetch(`${API_BASE}/admin-invite/${token}`)
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Invalid invite link')
+  return json
+}
+
+export async function acceptInvite(token, data) {
+  const res = await fetch(`${API_BASE}/admin-invite/${token}/accept`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to submit details')
+  return json
+}
+
+export async function approveAdmin(id) {
+  const token = getAdminToken()
+  const res = await fetch(`${API_BASE}/admin-approval/approve/${id}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  const json = await res.json()
+  if (res.status === 401 || res.status === 403) {
+    clearAuth()
+    throw new Error('Authorization required. Please log in again.')
+  }
+  if (!res.ok) throw new Error(json.error || 'Failed to approve admin')
+  return json
+}
+
+export async function rejectAdmin(id) {
+  const token = getAdminToken()
+  const res = await fetch(`${API_BASE}/admin-approval/reject/${id}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  const json = await res.json()
+  if (res.status === 401 || res.status === 403) {
+    clearAuth()
+    throw new Error('Authorization required. Please log in again.')
+  }
+  if (!res.ok) throw new Error(json.error || 'Failed to reject admin')
   return json
 }
 
@@ -207,6 +281,10 @@ export async function getDonations() {
   }
   if (!res.ok) throw new Error(json.error || 'Failed to load donations')
   return json.donations
+}
+
+export async function getDonationStats() {
+  return authedFetch(`${API_BASE}/donations/stats`)
 }
 
 export async function getTheme() {

@@ -94,7 +94,7 @@ function RegistrationForm() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label htmlFor="fullName" className={labelClass}>Full Name *</label>

@@ -5,8 +5,6 @@ import { useTheme } from '../../context/ThemeContext'
 import JanmashtamiDashboard from './janmashtami/JanmashtamiDashboard'
 import IyfDashboard from './iyf/IyfDashboard'
 import BhaktiVikshaDashboard from './bhakti-viksha/BhaktiVikshaDashboard'
-import DonationDashboard from './donation/DonationDashboard'
-import DonationManager from './donation/DonationManager'
 import WelcomeBanner from './WelcomeBanner'
 import RegistrationsByProgram from './charts/RegistrationsByProgram'
 import RegistrationsOverTime from './charts/RegistrationsOverTime'
@@ -100,11 +98,6 @@ export default function Dashboard() {
           <Link to="/dashboard/bhakti-viksha">
             <BhaktiVikshaDashboard count={stats?.bhaktiViksha ?? 0} />
           </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <DonationDashboard count={stats?.donations ?? 0} total={stats?.donationTotal ?? 0} />
-          <DonationManager onRecorded={load} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
