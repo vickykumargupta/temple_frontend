@@ -39,6 +39,7 @@ export default function Navbar() {
     // { to: '/design-system', label: 'Design System' },
     { to: '/bhakti-viksha', label: 'BhaktiVriksha' },
     ...(auth ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
+    ...(auth?.isSuperAdmin ? [{ to: '/dashboard/approvals', label: 'Approvals' }] : []),
   ]
 
   function handleAuthAction() {

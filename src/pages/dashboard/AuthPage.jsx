@@ -50,15 +50,18 @@ export default function AuthPage() {
   })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
 
   function switchMode(m) {
     setMode(m)
     setError(null)
+    setMessage(null)
   }
 
   function switchRole(r) {
     setRole(r)
     setError(null)
+    setMessage(null)
   }
 
   function handleChange(e) {
@@ -70,6 +73,7 @@ export default function AuthPage() {
     e.preventDefault()
     setSubmitting(true)
     setError(null)
+    setMessage(null)
     try {
       if (mode === 'signup' && form.password !== form.confirmPassword) {
         throw new Error('Passwords do not match')
@@ -102,10 +106,19 @@ export default function AuthPage() {
         data = isAdmin ? await signupAdmin(payload) : await signupDevotee(payload)
       }
 
+      if (mode === 'signup' && isAdmin && data.pending) {
+        setMode('login')
+        setForm((prev) => ({ ...prev, password: '', confirmPassword: '' }))
+        setError(null)
+        setMessage(data.message || 'Your admin account has been submitted for approval.')
+        return
+      }
+
       setAuth({
         token: data.token,
         role: data.admin?.role || data.devotee?.role || role,
         email: data.admin?.email || data.devotee?.email,
+        isSuperAdmin: data.admin?.isSuperAdmin || false,
       })
       navigate('/dashboard', { replace: true })
     } catch (err) {
@@ -240,6 +253,12 @@ export default function AuthPage() {
           {error && (
             <div className="mb-5 px-4 py-3 rounded-xl text-sm font-medium bg-red-100 text-red-800 border border-red-200 animate-fade-in">
               {error}
+            </div>
+          )}
+
+          {message && (
+            <div className="mb-5 px-4 py-3 rounded-xl text-sm font-medium bg-green-100 text-green-800 border border-green-200 animate-fade-in">
+              {message}
             </div>
           )}
 

@@ -23,7 +23,7 @@ export default function IyfRegistrationsPage() {
           ← Back to Dashboard
         </Link>
         <h1 className="text-2xl font-bold text-gray-800 mb-6">IYF Registrations</h1>
-        <RegistrationsTable title="ISKCON Youth Forum" columns={COLUMNS} fetcher={getIyfRegistrations} />
+        <RegistrationsTable columns={COLUMNS} fetcher={getIyfRegistrations} />
       </div>
     </div>
   )

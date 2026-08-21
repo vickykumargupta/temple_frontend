@@ -25,7 +25,7 @@ export default function BhaktiVikshaRegistrationsPage() {
           ← Back to Dashboard
         </Link>
         <h1 className="text-2xl font-bold text-gray-800 mb-6">BhaktiVriksha Registrations</h1>
-        <RegistrationsTable title="BhaktiVriksha" columns={COLUMNS} fetcher={getBhaktiVikshaRegistrations} />
+        <RegistrationsTable columns={COLUMNS} fetcher={getBhaktiVikshaRegistrations} />
       </div>
     </div>
   )

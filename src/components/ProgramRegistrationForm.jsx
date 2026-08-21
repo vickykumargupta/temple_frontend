@@ -3,6 +3,7 @@ import Toast from './Toast'
 
 function ProgramRegistrationForm({ title, program, registerFn, fields, intro }) {
   const initialForm = Object.fromEntries(fields.map((f) => [f.name, f.defaultValue ?? '']))
+  const emptyForm = Object.fromEntries(fields.map((f) => [f.name, '']))
   const [form, setForm] = useState(initialForm)
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState(null)
@@ -62,7 +63,7 @@ function ProgramRegistrationForm({ title, program, registerFn, fields, intro }) 
       const data = await registerFn(payload)
       setToast({ type: 'success', text: data.message || `${program} registration successful!` })
       setMessage(null)
-      setForm(initialForm)
+      setForm(emptyForm)
       setTimeout(() => setToast(null), 4000)
     } catch (err) {
       setToast({ type: 'error', text: err.message || 'Something went wrong. Please try again.' })
@@ -97,7 +98,7 @@ function ProgramRegistrationForm({ title, program, registerFn, fields, intro }) 
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {fields.map((field) => (
             <div key={field.name} className={field.fullWidth ? 'md:col-span-2' : ''}>
