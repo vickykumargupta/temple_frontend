@@ -269,6 +269,17 @@ export async function createDonation(data) {
   return json
 }
 
+export async function createPublicDonation(data) {
+  const res = await fetch(`${API_BASE}/donations/public`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to submit details')
+  return json
+}
+
 export async function getDonations() {
   const token = getAdminToken()
   const res = await fetch(`${API_BASE}/donations`, {
