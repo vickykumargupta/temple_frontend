@@ -1,4 +1,15 @@
-const API_BASE = '/api'
+export const API_BASE = '/api'
+
+export async function registerVolunteer(data) {
+  const res = await fetch(`${API_BASE}/volunteers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to submit volunteer form')
+  return json
+}
 
 export async function registerDevotee(data) {
   const res = await fetch(`${API_BASE}/register`, {
@@ -80,8 +91,8 @@ export function getDevoteeToken() {
   return auth?.role === 'devotee' ? auth.token : null
 }
 
-export function setAuth({ token, role, email, isSuperAdmin }) {
-  localStorage.setItem('iskcon_auth', JSON.stringify({ token, role, email, isSuperAdmin }))
+export function setAuth({ token, role, email, isSuperAdmin, fullName }) {
+  localStorage.setItem('iskcon_auth', JSON.stringify({ token, role, email, isSuperAdmin, fullName }))
 }
 
 export function setAdminToken(token) {
@@ -93,25 +104,14 @@ export function clearAuth() {
   localStorage.removeItem('iskcon_auth')
 }
 
-export async function loginAdmin(email, password) {
-  const res = await fetch(`${API_BASE}/admin/login`, {
+export async function unifiedLogin({ email, password }) {
+  const res = await fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   })
   const json = await res.json()
   if (!res.ok) throw new Error(json.error || 'Login failed')
-  return json
-}
-
-export async function signupAdmin(data) {
-  const res = await fetch(`${API_BASE}/admin/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  const json = await res.json()
-  if (!res.ok) throw new Error(json.error || 'Sign up failed')
   return json
 }
 
@@ -123,40 +123,6 @@ export async function getPendingAdmins() {
 export async function getAllAdmins() {
   const json = await authedFetch(`${API_BASE}/admin-approval/all`)
   return json.admins
-}
-
-export async function createInvite(data) {
-  const token = getAdminToken()
-  const res = await fetch(`${API_BASE}/admin-invite`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  })
-  const json = await res.json()
-  if (res.status === 401 || res.status === 403) {
-    clearAuth()
-    throw new Error('Authorization required. Please log in again.')
-  }
-  if (!res.ok) throw new Error(json.error || 'Failed to send invite')
-  return json
-}
-
-export async function validateInvite(token) {
-  const res = await fetch(`${API_BASE}/admin-invite/${token}`)
-  const json = await res.json()
-  if (!res.ok) throw new Error(json.error || 'Invalid invite link')
-  return json
-}
-
-export async function acceptInvite(token, data) {
-  const res = await fetch(`${API_BASE}/admin-invite/${token}/accept`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  const json = await res.json()
-  if (!res.ok) throw new Error(json.error || 'Failed to submit details')
-  return json
 }
 
 export async function approveAdmin(id) {
@@ -186,17 +152,6 @@ export async function rejectAdmin(id) {
     throw new Error('Authorization required. Please log in again.')
   }
   if (!res.ok) throw new Error(json.error || 'Failed to reject admin')
-  return json
-}
-
-export async function loginDevotee(email, password) {
-  const res = await fetch(`${API_BASE}/devotee/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  })
-  const json = await res.json()
-  if (!res.ok) throw new Error(json.error || 'Login failed')
   return json
 }
 
@@ -296,6 +251,56 @@ export async function getDonations() {
 
 export async function getDonationStats() {
   return authedFetch(`${API_BASE}/donations/stats`)
+}
+
+export async function getMyProfile() {
+  return authedFetch(`${API_BASE}/profile`)
+}
+
+export async function changeMyPassword(currentPassword, newPassword) {
+  const token = getAdminToken() || getDevoteeToken()
+  const res = await fetch(`${API_BASE}/profile/change-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to change password')
+  return json
+}
+
+export async function requestPasswordReset(email) {
+  const res = await fetch(`${API_BASE}/password-reset/request`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to send reset email')
+  return json
+}
+
+export async function verifyOtpAndReset(email, otp, password) {
+  const res = await fetch(`${API_BASE}/password-reset/verify-reset`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, otp, password }),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to reset password')
+  return json
+}
+
+export async function updateMyProfile(data) {
+  const token = getAdminToken() || getDevoteeToken()
+  const res = await fetch(`${API_BASE}/profile`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  })
+  const json = await res.json()
+  if (!res.ok) throw new Error(json.error || 'Failed to update profile')
+  return json
 }
 
 export async function getTheme() {

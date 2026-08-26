@@ -9,7 +9,25 @@ export default function Navbar() {
   const navigate = useNavigate()
   const { theme, setTheme, themes, isCustom, customPrimary, swatchGradient } = useTheme()
   const [showThemes, setShowThemes] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const themesRef = useRef(null)
+  const profileRef = useRef(null)
+
+  useEffect(() => {
+    setMenuOpen(false)
+    setProfileOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false)
+      }
+    }
+    if (profileOpen) document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [profileOpen])
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -65,23 +83,26 @@ export default function Navbar() {
             <p className="text-xs text-gray-500 dark:text-gray-400">Bangalore</p>
           </div>
         </Link>
-        <div className="flex items-center gap-4 md:gap-6">
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`text-sm transition hidden md:block ${
-                pathname === link.to
-                  ? 'font-semibold'
-                  : 'text-gray-600 dark:text-gray-300'
-              }`}
-              style={pathname === link.to ? { color: 'var(--theme-accent)' } : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
+          {links.map((link) => {
+            const active = pathname === link.to
+            return (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`text-sm hidden md:block px-3.5 py-1.5 rounded-full transition ${
+                  active
+                    ? 'text-white font-semibold shadow-md'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`}
+                style={active ? { background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' } : undefined}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
           {isAdmin && (
-            <div className="relative" ref={themesRef}>
+            <div className="relative hidden md:block" ref={themesRef}>
               <button
                 onClick={() => setShowThemes(!showThemes)}
                 aria-label="Choose theme"
@@ -154,20 +175,152 @@ export default function Navbar() {
           )}
           <Link
             to="/donate"
-            className="hidden sm:inline-block text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90"
+            className="hidden md:inline-block text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90"
             style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
           >
             Donate
           </Link>
+          {auth ? (
+            <div className="relative" ref={profileRef}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                aria-label="User menu"
+                className="flex items-center gap-2 pl-1 pr-1 sm:pr-2.5 py-1 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
+              >
+                <span
+                  className="w-8 h-8 rounded-full text-white text-[11px] font-extrabold flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+                >
+                  {(auth.fullName || auth.email || '?')
+                    .split(' ').filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('')}
+                </span>
+                <span className="hidden lg:block text-xs font-semibold text-gray-700 dark:text-gray-200 max-w-[7rem] truncate">
+                  {(auth.fullName || '').split(' ')[0]}
+                </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="hidden lg:block text-gray-400">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-fade-in z-50">
+                  <div className="px-4 py-3.5 border-b border-gray-100 dark:border-gray-700">
+                    <p className="font-bold text-sm text-gray-800 dark:text-white truncate">{auth.fullName || 'Welcome'}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{auth.email}</p>
+                    <span className="inline-block mt-1.5 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full text-white"
+                      style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
+                      {auth.isSuperAdmin ? 'Super Admin' : auth.role === 'admin' ? 'Admin' : 'Devotee'}
+                    </span>
+                  </div>
+                  <div className="p-1.5">
+                    <Link to="/profile" onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      My Profile
+                    </Link>
+                    <Link to="/dashboard" onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                      My Dashboard
+                    </Link>
+                    <button onClick={() => { handleAuthAction() }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition cursor-pointer">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={handleAuthAction}
+              className="text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90 whitespace-nowrap"
+              style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+            >
+              Login
+            </button>
+          )}
           <button
-            onClick={handleAuthAction}
-            className="text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md cursor-pointer hover:opacity-90"
-            style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer"
           >
-            {auth ? (isAdmin ? 'Logout' : 'Logout') : 'Login / Sign Up'}
+            {menuOpen ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="5" y1="5" x2="19" y2="19" />
+                <line x1="19" y1="5" x2="5" y2="19" />
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
+
+      {menuOpen && (
+        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shadow-lg animate-fade-in">
+          <div className="px-4 py-3 space-y-1">
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`transition ${
+                  pathname === link.to
+                    ? 'inline-block w-fit px-6 py-2.5 mt-1 rounded-full text-white font-bold text-sm shadow-lg'
+                    : 'block px-4 py-3 rounded-xl text-base text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                }`}
+                style={pathname === link.to ? { background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' } : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              to="/donate"
+              className="block mt-2 text-center text-white text-sm font-bold px-4 py-3 rounded-xl transition cursor-pointer hover:opacity-90"
+              style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              🙏 Donate
+            </Link>
+            {isAdmin && (
+              <div className="pt-2 border-t border-gray-100 dark:border-gray-800 mt-2">
+                <p className="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">Theme</p>
+                <div className="flex flex-wrap gap-2 px-4 pb-1">
+                  {Object.entries(themes).map(([key, t]) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        setTheme(key)
+                        setMenuOpen(false)
+                      }}
+                      aria-label={t.label}
+                      className={`w-9 h-9 rounded-full border-2 transition cursor-pointer ${theme === key && !isCustom ? 'ring-2 ring-offset-2 ring-gray-400 border-transparent' : 'border-black/5'}`}
+                      style={{ background: t.swatch }}
+                    />
+                  ))}
+                  <label
+                    className={`w-9 h-9 rounded-full border-2 cursor-pointer relative overflow-hidden ${isCustom ? 'ring-2 ring-offset-2 ring-gray-400 border-transparent' : 'border-black/5'}`}
+                    style={{ background: customPrimary ? swatchGradient(customPrimary) : '#e5e7eb' }}
+                  >
+                    <input
+                      type="color"
+                      value={customPrimary || '#2563eb'}
+                      onChange={(e) => setTheme({ type: CUSTOM_THEME_KEY, primary: e.target.value })}
+                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                      aria-label="Custom theme color"
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
