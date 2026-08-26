@@ -5,6 +5,8 @@ import bhaktiVikshaRoutes from './bhakti-viksha/routes'
 import donationRoutes from './donation/routes'
 import adminApprovalRoutes from './admin-approvals/routes'
 import acceptInviteRoutes from './accept-invite/routes'
+import profileRoutes from './profile/routes'
+import forgotPasswordRoutes from './forgot-password/routes'
 // import designSystemRoutes from './design-system/routes'
 import dashboardRoutes from './dashboard/routes'
 import legalRoutes from './legal/routes'
@@ -17,6 +19,8 @@ const pageRoutes = [
   donationRoutes,
   adminApprovalRoutes,
   acceptInviteRoutes,
+  profileRoutes,
+  forgotPasswordRoutes,
   // designSystemRoutes,
   dashboardRoutes,
   legalRoutes,

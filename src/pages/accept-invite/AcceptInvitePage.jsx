@@ -1,9 +1,55 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { validateInvite, acceptInvite } from '../../services/api'
+import { validateInvite, acceptInvite } from '../../services/mail'
+import { PASSWORD_RULES, getPasswordErrors } from '../../utils/passwordValidation'
 
-const inputBase = 'w-full px-4 py-2.5 rounded-xl border transition bg-white focus:outline-none text-sm'
-const inputStyle = { '--tw-ring-color': 'var(--theme-cta-from)', borderColor: 'var(--theme-cta-from)' }
+const inputBase =
+  'w-full py-4 pl-12 pr-12 rounded-xl border transition bg-white focus:outline-none text-base'
+
+const inputStyle = {
+  '--tw-ring-color': 'var(--theme-cta-from)',
+  borderColor: 'var(--theme-cta-from)',
+}
+
+function Field({ icon, label, className = '', children }) {
+  return (
+    <div className={className}>
+      <label className="block text-sm font-semibold text-gray-700 mb-1.5">{label}</label>
+      <div className="relative">
+        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true">
+          {icon}
+        </span>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function pwToggle(show, onClick) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      tabIndex={-1}
+      aria-label="Toggle password visibility"
+      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition cursor-pointer"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {show ? (
+          <>
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+            <line x1="1" y1="1" x2="23" y2="23" />
+          </>
+        ) : (
+          <>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </>
+        )}
+      </svg>
+    </button>
+  )
+}
 
 export default function AcceptInvitePage() {
   const [params] = useSearchParams()
@@ -13,6 +59,7 @@ export default function AcceptInvitePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [form, setForm] = useState({ fullName: '', email: '', phone: '' })
+  const [showPassword, setShowPassword] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(null)
   const [submitError, setSubmitError] = useState(null)
@@ -39,6 +86,11 @@ export default function AcceptInvitePage() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    const pwErrors = getPasswordErrors(form.password || '')
+    if (pwErrors.length > 0) {
+      setSubmitError(`Password must contain: ${pwErrors.join(', ')}`)
+      return
+    }
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -53,106 +105,154 @@ export default function AcceptInvitePage() {
 
   if (loading) {
     return (
-      <section className="min-h-[60vh] py-16 flex items-center justify-center">
-        <p className="text-gray-500">Validating invite link...</p>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="min-h-[60vh] py-16 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="text-4xl mb-4">😕</div>
-          <h1 className="text-xl font-bold text-gray-800 mb-2">Invite Unavailable</h1>
-          <p className="text-gray-500">{error}</p>
-        </div>
-      </section>
-    )
-  }
-
-  if (success) {
-    return (
-      <section className="min-h-[60vh] py-16 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="text-4xl mb-4">🙏</div>
-          <h1 className="text-xl font-bold text-gray-800 mb-2">Thank You!</h1>
-          <p className="text-gray-500">{success}</p>
-          <p className="text-sm text-gray-400 mt-4">You can now close this page. You will be able to log in once a super-admin approves your account.</p>
-        </div>
-      </section>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <p className="text-gray-500 text-lg">Validating your invite...</p>
+      </div>
     )
   }
 
   return (
-    <section className="min-h-[60vh] py-16 bg-gradient-to-b from-amber-50 via-white to-white">
-      <div className="max-w-lg mx-auto px-4">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Admin Invitation</h1>
-          <div className="w-20 h-1 mx-auto mt-4 rounded-full" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}></div>
-          <p className="text-gray-600 mt-4">
-            You have been invited to join the <strong>ISKCON KR Puram</strong> admin team.
-            Please confirm your details and set a password. Your account will be active once approved.
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-12 px-4">
+      <div className="w-full max-w-7xl grid md:grid-cols-2 md:min-h-[780px] rounded-3xl overflow-hidden shadow-2xl">
+        <div
+          className="hidden md:flex flex-col justify-between p-14 lg:p-20 text-white relative overflow-hidden"
+        >
+          <img
+            src="/images/prabhupada.jpg"
+            alt="Srila Prabhupada"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.25) 100%)' }}
+          ></div>
+
+          <div className="absolute top-10 left-10 lg:top-16 lg:left-16 z-20">
+            <div className="p-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 shadow-lg">
+              <img src="/images/iskcon-logo.svg" alt="ISKCON logo" className="w-12 h-12" />
+            </div>
+          </div>
+
+          <div className="relative z-10 my-auto">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
+              His Divine Grace A.C. Bhaktivedanta Swami Prabhupada
+            </p>
+          </div>
+
+          <p className="relative z-10 text-base italic text-white/85 drop-shadow">
+            Hare Krishna Hare Krishna, Krishna Krishna Hare Hare
+            <br />
+            Hare Rama Hare Rama, Rama Rama Hare Hare 🙏
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-          {invite && (
-            <div className="mb-6 px-4 py-3 rounded-xl text-sm bg-amber-50 text-amber-800 border border-amber-200">
-              Invite for: <strong>{invite.fullName}</strong> ({invite.email})
-            </div>
-          )}
+        <div
+          className="p-6 sm:p-10 md:p-14 lg:p-16 flex flex-col justify-center"
+          style={{ background: 'linear-gradient(to bottom, var(--theme-soft-from), var(--theme-soft-to))' }}
+        >
+          <div className="flex items-center gap-2 mb-6 md:hidden">
+            <img src="/images/iskcon-logo.svg" alt="ISKCON logo" className="w-9 h-9" />
+            <p className="font-bold text-gray-800">ISKCON KR Puram</p>
+          </div>
 
-          {submitError && (
-            <div className="mb-4 px-4 py-3 rounded-xl text-sm font-medium bg-red-100 text-red-800 border border-red-200">
-              {submitError}
-            </div>
-          )}
+          {error ? (
+            <>
+              <h1 className="text-4xl font-bold text-gray-800 mb-4">Invite Unavailable</h1>
+              <p className="text-lg text-gray-500 mb-8">{error}</p>
+              <p className="text-sm text-gray-400">Please ask a super-admin to send you a fresh invite.</p>
+            </>
+          ) : success ? (
+            <>
+              <div className="text-5xl mb-4">🙏</div>
+              <h1 className="text-4xl font-bold text-gray-800 mb-4">Thank You!</h1>
+              <p className="text-lg text-gray-500 mb-4">{success}</p>
+              <p className="text-sm text-gray-400">
+                You can close this page now. You will be able to log in once a super-admin approves your account.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold text-gray-800">Complete your Admin Setup</h1>
+              <p className="text-lg text-gray-500 mb-6">
+                Confirm your details and create a password
+              </p>
 
-          <form onSubmit={handleSubmit} noValidate className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
-              <input name="fullName" type="text" value={form.fullName} onChange={handleChange} className={inputBase} style={inputStyle} required />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
-              <input name="email" type="email" value={form.email} onChange={handleChange} className={inputBase} style={inputStyle} readOnly required />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
-              <input name="phone" type="tel" value={form.phone} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. 9876543210" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Designation (optional)</label>
-              <input name="designation" type="text" value={form.designation || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. Treasurer" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Department (optional)</label>
-              <input name="department" type="text" value={form.department || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. Accounts" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">City</label>
-              <input name="city" type="text" value={form.city || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. Bangalore" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Address (optional)</label>
-              <input name="address" type="text" value={form.address || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="Street, area" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
-              <input name="password" type="password" value={form.password || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="Minimum 6 characters" minLength={6} required />
-            </div>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full text-white font-bold py-2.5 px-6 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer hover:opacity-90"
-              style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
-            >
-              {submitting ? 'Submitting...' : 'Submit for Approval'}
-            </button>
-          </form>
+              {invite && (
+                <div className="mb-6 px-4 py-3 rounded-xl text-sm bg-white/70 border text-gray-700">
+                  Invited: <strong>{invite.fullName}</strong> ({invite.email})
+                </div>
+              )}
+
+              {submitError && (
+                <div className="mb-5 px-4 py-3 rounded-xl text-sm font-medium bg-red-100 text-red-800 border border-red-200 animate-fade-in">
+                  {submitError}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field icon={<span className="text-base">👤</span>} label="Full Name">
+                    <input name="fullName" type="text" value={form.fullName} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="Enter your full name" required />
+                  </Field>
+
+                  <Field icon={<span className="text-base">📞</span>} label="Phone">
+                    <input name="phone" type="tel" value={form.phone || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="Enter phone number" />
+                  </Field>
+
+                  <Field icon={<span className="text-base">✉️</span>} label="Email" className="sm:col-span-2">
+                    <input name="email" type="email" value={form.email} onChange={handleChange} className={`${inputBase} pr-5 bg-gray-50 text-gray-500`} style={inputStyle} readOnly required />
+                  </Field>
+
+                  <Field icon={<span className="text-base">📍</span>} label="City">
+                    <input name="city" type="text" value={form.city || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. Bangalore" />
+                  </Field>
+
+                  <Field icon={<span className="text-base">🏠</span>} label="Address (optional)">
+                    <input name="address" type="text" value={form.address || ''} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="Street, area" />
+                  </Field>
+
+                  <Field icon={<span className="text-base">🔒</span>} label="Password" className="sm:col-span-2">
+                    <input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={form.password || ''}
+                      onChange={handleChange}
+                      className={inputBase}
+                      style={inputStyle}
+                      placeholder="Min 8 chars incl. A-Z, a-z, 0-9 & symbol"
+                      minLength={8}
+                      required
+                    />
+                    {pwToggle(showPassword, () => setShowPassword((v) => !v))}
+                  </Field>
+                </div>
+
+                <ul className="flex flex-nowrap items-center gap-x-3 overflow-x-auto pb-1">
+                  {PASSWORD_RULES.map((rule) => {
+                    const ok = rule.test(form.password || '')
+                    return (
+                      <li key={rule.key} className={`flex items-center gap-1 text-xs whitespace-nowrap ${ok ? 'text-green-600' : 'text-red-500'}`}>
+                        <span>{ok ? '✓' : '✕'}</span>
+                        {rule.label}
+                      </li>
+                    )
+                  })}
+                </ul>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full text-white text-lg font-bold py-4 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:opacity-90"
+                  style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}
+                >
+                  {submitting ? 'Submitting...' : 'Submit for Approval'}
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
-    </section>
+    </div>
   )
 }

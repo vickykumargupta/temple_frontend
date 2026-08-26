@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { InfoCard } from '../../components/ui'
+import VolunteerForm from '../volunteer/VolunteerForm'
 
 export default function HomePage() {
+  const [showVolunteer, setShowVolunteer] = useState(false)
+
   return (
     <div>
       {/* ===================== HERO ===================== */}
@@ -15,6 +19,15 @@ export default function HomePage() {
             className="w-full h-full object-cover"
             loading="eager"
           />
+          <button
+            onClick={() => setShowVolunteer(true)}
+            className="fixed top-24 right-0 z-40 group flex items-center justify-center pl-5 pr-4 py-2.5 md:pl-7 md:pr-6 md:py-3.5 rounded-l-full border border-white/50 ring-2 ring-amber-200/40 bg-gradient-to-r from-amber-500/90 to-orange-400/90 backdrop-blur-md shadow-[0_12px_40px_-5px_rgba(234,88,12,0.65)] transition-all duration-300 hover:scale-105 hover:shadow-[0_18px_55px_-5px_rgba(234,88,12,0.85)] cursor-pointer"
+          >
+                        <span className="text-white font-extrabold text-sm md:text-lg tracking-wide leading-tight drop-shadow">
+              One-Day Volunteer
+              <span className="block text-[11px] md:text-xs font-semibold text-amber-100 mt-0.5">Offer your seva this Janmashtami</span>
+            </span>
+          </button>
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-16 text-center">
@@ -262,6 +275,28 @@ href="/bhakti-viksha"
           </div>
         </div>
       </section>
+
+      {showVolunteer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setShowVolunteer(false)}>
+          <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full relative max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowVolunteer(false)}
+              className="sticky top-3 float-right mr-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="p-6 md:p-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Become a One-Day Volunteer</h2>
+              <div className="w-16 h-1 mx-auto mb-4 rounded-full" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}></div>
+              <p className="text-gray-600 text-sm mb-6 max-w-xl mx-auto">
+                Offer your seva for Janmashtami — darshan assistance, prasadam distribution, decoration,
+                crowd management and more. Hare Krishna 🙏
+              </p>
+              <VolunteerForm />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

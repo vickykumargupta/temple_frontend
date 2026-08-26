@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import QRCode from 'qrcode'
 import RegistrationForm from '../../components/RegistrationForm'
+import VolunteerForm from '../volunteer/VolunteerForm'
 import { ImageCard } from '../../components/ui'
 
 export default function JanmashtamiSection() {
@@ -9,6 +10,7 @@ export default function JanmashtamiSection() {
   const [marqueeStopped, setMarqueeStopped] = useState(false)
   const [showEventDetails, setShowEventDetails] = useState(false)
   const [showDonation, setShowDonation] = useState(false)
+  const [showVolunteer, setShowVolunteer] = useState(false)
   const [cardVisible, setCardVisible] = useState(false)
   const canvasRef = useRef(null)
   const qrUrl = useRef('')
@@ -82,7 +84,7 @@ export default function JanmashtamiSection() {
       {/* HERO SECTION WITH UNIFIED BACKGROUND & TRANSPARENT SCROLL-ANIMATED CARD */}
       <div 
         ref={heroRef}
-        className="relative overflow-hidden text-white min-h-[872px] flex items-end justify-end bg-cover bg-center"
+        className="relative overflow-hidden text-white min-h-[600px] md:min-h-[872px] flex items-end justify-end bg-cover bg-center"
         style={{ 
           backgroundImage: `linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.35)), url('/images/janmashtami_hero_banner.jpg')`,
         }}
@@ -91,10 +93,20 @@ export default function JanmashtamiSection() {
         <div className="absolute inset-0 bg-slate-950/10 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-950/80 to-transparent pointer-events-none"></div>
 
+        <button
+          onClick={() => setShowVolunteer(true)}
+          className="fixed top-24 right-0 z-40 group flex items-center justify-center pl-5 pr-4 py-2.5 md:pl-7 md:pr-6 md:py-3.5 rounded-l-full border border-white/50 ring-2 ring-amber-200/40 bg-gradient-to-r from-amber-500/90 to-orange-400/90 backdrop-blur-md shadow-[0_12px_40px_-5px_rgba(234,88,12,0.65)] transition-all duration-300 hover:scale-105 hover:shadow-[0_18px_55px_-5px_rgba(234,88,12,0.85)] cursor-pointer"
+        >
+          <span className="text-white font-extrabold text-sm md:text-lg tracking-wide leading-tight drop-shadow">
+            One-Day Volunteer
+            <span className="block text-[11px] md:text-xs font-semibold text-amber-100 mt-0.5">Offer your seva this Janmashtami</span>
+          </span>
+        </button>
+
         {/* RIGHT-POSITIONED TRANSPARENT CARD (DIAGONAL SLIDE FROM NANDA'S HEART TO BOTTOM 10PX EDGE) */}
-        <div className="relative max-w-7xl mx-auto px-2 sm:px-4 md:px-6 pb-2.5 pt-12 w-full z-10 flex justify-end">
+        <div className="hidden md:flex relative max-w-7xl mx-auto px-2 sm:px-4 md:px-6 pb-2.5 pt-12 w-full z-10 flex justify-end">
           <div 
-            className={`w-full max-w-[414px] max-h-[322px] bg-black/10 backdrop-blur-xs border border-amber-300/40 p-5 md:p-6 rounded-3xl shadow-2xl text-center relative overflow-hidden transition-all duration-1000 ease-out transform ${
+            className={`w-full max-w-[414px] max-h-[420px] md:max-h-[322px] bg-slate-950/85 backdrop-blur-none md:bg-black/10 md:backdrop-blur-xs border-amber-300/25 md:border-amber-300/40 p-5 md:p-6 rounded-3xl shadow-2xl text-center relative overflow-hidden transition-all duration-1000 ease-out transform ${
               cardVisible 
                 ? 'opacity-100 translate-x-0 translate-y-0 scale-100 shadow-[0_0_35px_rgba(251,191,36,0.3)]' 
                 : 'opacity-0 translate-x-28 -translate-y-64 scale-75 pointer-events-none'
@@ -144,6 +156,25 @@ export default function JanmashtamiSection() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile-only CTA strip (replaces hero glass card on phones) */}
+      <div className="md:hidden px-3 py-3.5 flex gap-2.5 justify-center" style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>
+        <a
+          href="#register"
+          className="font-bold px-5 py-2.5 rounded-full shadow-xl transition-all duration-300 hover:scale-105 text-center text-slate-950 text-xs sm:text-sm flex items-center justify-center"
+          style={{ background: 'linear-gradient(90deg, #fbbf24, #f59e0b)' }}
+        >
+          <span className="text-sm font-extrabold">Register</span>
+          <span className="text-xs font-medium ml-1">Now</span>
+        </a>
+        <a
+          href="#event-schedule"
+          className="bg-black/40 font-bold px-5 py-2.5 rounded-full border border-white/40 transition-all duration-300 hover:scale-105 cursor-pointer shadow-md text-center flex items-center justify-center"
+        >
+          <span className="text-base font-extrabold text-amber-300 tracking-wider">Event</span>
+          <span className="text-xs text-amber-100 ml-1">Schedule</span>
+        </a>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-2 sm:px-4">
@@ -399,6 +430,20 @@ export default function JanmashtamiSection() {
         </div>
       </div>
 
+      <div id="volunteer" className="py-16 scroll-mt-16" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-from), var(--theme-soft-to))' }}>
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            Become a One-Day Volunteer
+          </h2>
+          <div className="w-20 h-1 mx-auto mb-8 rounded-full" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}></div>
+          <p className="text-gray-600 mb-10 max-w-2xl mx-auto">
+            Janmashtami needs many helping hands — darshan assistance, prasadam distribution, decoration,
+            crowd management and more. Offer your seva for a day and be part of the celebration 🙏
+          </p>
+          <VolunteerForm />
+        </div>
+      </div>
+
       {showEventDetails && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in" onClick={() => setShowEventDetails(false)}>
           <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 max-w-4xl mx-4 w-full min-h-[60vh] relative overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -463,6 +508,28 @@ export default function JanmashtamiSection() {
                   🚀 Pay via UPI App
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showVolunteer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setShowVolunteer(false)}>
+          <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full relative max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowVolunteer(false)}
+              className="sticky top-3 float-right mr-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="p-6 md:p-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Become a One-Day Volunteer</h2>
+              <div className="w-16 h-1 mx-auto mb-4 rounded-full" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}></div>
+              <p className="text-gray-600 text-sm mb-6 max-w-xl mx-auto">
+                Offer your seva for Janmashtami — darshan assistance, prasadam distribution, decoration,
+                crowd management and more. Hare Krishna 🙏
+              </p>
+              <VolunteerForm />
             </div>
           </div>
         </div>

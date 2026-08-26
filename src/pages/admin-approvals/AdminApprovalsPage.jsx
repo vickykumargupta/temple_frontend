@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { getAllAdmins, approveAdmin, rejectAdmin, createInvite } from '../../services/api'
+import { getAllAdmins, approveAdmin, rejectAdmin } from '../../services/api'
+import { createInvite } from '../../services/mail'
 
 function StatusBadge({ status }) {
   const styles = {
