@@ -126,8 +126,8 @@ export default function GitaClassesPage() {
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--theme-soft-to)' }}>
-                <span className="text-3xl">📖</span>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-white border border-gray-100 shadow-sm p-2">
+                <img src="/images/iyf_gita_classes.png" alt="Gita Classes Icon" className="w-full h-full object-contain" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Gita Classes</h1>
             </div>

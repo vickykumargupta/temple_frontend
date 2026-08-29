@@ -32,7 +32,11 @@ export default function VolunteerForm() {
 
   function handleChange(e) {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
+    let next = value
+    if (name === 'fullName') next = value.replace(/[^a-zA-Z\s]/g, '')
+    if (name === 'phone') next = value.replace(/[^0-9]/g, '').slice(0, 10)
+    if (name === 'age') next = value.replace(/[^0-9]/g, '').slice(0, 3)
+    setForm((prev) => ({ ...prev, [name]: next }))
   }
 
   async function handleSubmit(e) {
@@ -61,7 +65,7 @@ export default function VolunteerForm() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto text-left bg-white rounded-2xl shadow-lg p-6 md:p-8">
+    <div className="max-w-3xl mx-auto text-left bg-white/70 backdrop-blur-md border border-white/40 rounded-3xl shadow-2xl p-8 md:p-12">
       {error && (
         <div className="mb-4 px-4 py-3 rounded-xl text-sm font-medium bg-red-100 text-red-800 border border-red-200">
           {error}
@@ -88,34 +92,55 @@ export default function VolunteerForm() {
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Age</label>
-          <input name="age" type="number" min="12" max="90" value={form.age} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. 25" />
+          <input name="age" type="text" inputMode="numeric" min="12" max="90" value={form.age} onChange={handleChange} className={inputBase} style={inputStyle} placeholder="e.g. 25" />
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Gender</label>
-          <select name="gender" value={form.gender} onChange={handleChange} className={`${inputBase} cursor-pointer`} style={inputStyle}>
-            <option value="">Select</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
+          <div className="relative">
+            <select name="gender" value={form.gender} onChange={handleChange} className={`${inputBase} appearance-none pr-[45px] cursor-pointer`} style={inputStyle}>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-[17px]">
+              <svg className="w-[18px] h-[18px] text-gray-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Preferred Service Area</label>
-          <select name="preferredArea" value={form.preferredArea} onChange={handleChange} className={`${inputBase} cursor-pointer`} style={inputStyle}>
-            <option value="">Select</option>
-            {AREAS.map((a) => (
-              <option key={a} value={a}>{a}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select name="preferredArea" value={form.preferredArea} onChange={handleChange} className={`${inputBase} appearance-none pr-[45px] cursor-pointer`} style={inputStyle}>
+              <option value="">Select</option>
+              {AREAS.map((a) => (
+                <option key={a} value={a}>{a}</option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-[17px]">
+              <svg className="w-[18px] h-[18px] text-gray-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Availability</label>
-          <select name="timeSlot" value={form.timeSlot} onChange={handleChange} className={`${inputBase} cursor-pointer`} style={inputStyle}>
-            <option value="">Select</option>
-            {TIME_SLOTS.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select name="timeSlot" value={form.timeSlot} onChange={handleChange} className={`${inputBase} appearance-none pr-[45px] cursor-pointer`} style={inputStyle}>
+              <option value="">Select</option>
+              {TIME_SLOTS.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-[17px]">
+              <svg className="w-[18px] h-[18px] text-gray-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
         </div>
         <div className="sm:col-span-2">
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Message (optional)</label>

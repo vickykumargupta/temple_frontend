@@ -15,8 +15,8 @@ export default function PersonalityDevelopmentPage() {
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--theme-soft-to)' }}>
-            <span className="text-3xl">🗣️</span>
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-white border border-gray-100 shadow-sm p-2">
+            <img src="/images/iyf_personality_dev.png" alt="Personality Development Icon" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Personality Development</h1>
         </div>
@@ -25,12 +25,12 @@ export default function PersonalityDevelopmentPage() {
           Public speaking, leadership, debates and soft-skill training to build confidence and character.
         </p>
 
-        {/* Placeholder Layout for content */}
-        <div className="bg-gray-50 border border-gray-100 rounded-2xl p-8 mb-12 text-center text-gray-500">
-          <p className="mb-4">Content coming soon...</p>
-          <div className="aspect-video bg-gray-200 rounded-xl max-w-2xl mx-auto flex items-center justify-center">
-            <span className="text-gray-400">Image Placeholder</span>
-          </div>
+        {/* Feature Display */}
+        <div className="bg-gradient-to-br from-indigo-50/50 to-white border border-gray-100 rounded-3xl p-6 md:p-8 mb-12 shadow-sm flex flex-col items-center text-center">
+          <img src="/images/iyf_personality_dev.png" alt="Personality Development" className="w-full max-w-md h-auto object-contain rounded-2xl shadow-xl mb-6 hover:scale-105 transition-transform duration-500" />
+          <p className="text-gray-600 max-w-xl text-base leading-relaxed">
+            Build essential life skills, character, and spiritual confidence through interactive workshops, public speaking forums, and leadership seminars tailored for today's youth.
+          </p>
         </div>
 
         <div className="rounded-3xl p-10 text-center text-white" style={{ background: 'linear-gradient(135deg, var(--theme-cta-from), var(--theme-cta-to))' }}>

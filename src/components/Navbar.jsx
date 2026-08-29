@@ -56,7 +56,7 @@ export default function Navbar() {
     { to: '/iyf', label: 'IYF' },
     // { to: '/design-system', label: 'Design System' },
     { to: '/bhakti-viksha', label: 'BhaktiVriksha' },
-    ...(auth ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
+    ...(auth?.role === 'admin' ? [{ to: '/dashboard', label: 'Dashboard' }] : []),
     ...(auth?.isSuperAdmin ? [{ to: '/dashboard/approvals', label: 'Approvals' }] : []),
   ]
 
@@ -217,11 +217,13 @@ export default function Navbar() {
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                       My Profile
                     </Link>
-                    <Link to="/dashboard" onClick={() => setProfileOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                      My Dashboard
-                    </Link>
+                    {auth?.role === 'admin' && (
+                      <Link to="/dashboard" onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        My Dashboard
+                      </Link>
+                    )}
                     <button onClick={() => { handleAuthAction() }}
                       className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition cursor-pointer">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>

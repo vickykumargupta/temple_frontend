@@ -84,3 +84,28 @@
   --theme-text-soft: #ede9fe;
   --theme-card-bg: #faf5ff;
 }
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee-scroll {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee-scroll:hover {
+  animation-play-state: paused;
+}
+
+.janmashtami-hero-bg {
+  background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.35)), url('/images/mobile_jkrishna.jpg');
+}
+
+@media (min-width: 768px) {
+  .janmashtami-hero-bg {
+    background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.35)), url('/images/janmashtami_hero_banner.jpg');
+  }
+}

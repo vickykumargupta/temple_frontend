@@ -3,7 +3,8 @@ import ProgramRegistrationForm from '../../components/ProgramRegistrationForm'
 import { registerBhaktiViksha, getAuth } from '../../services/api'
 
 export default function BhaktiVikshaSection() {
-  const email = getAuth()?.email || ''
+  const auth = getAuth()
+  const email = auth?.role === 'admin' ? '' : (auth?.email || '')
   return (
     <section id="bhakti-viksha" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, #ffffff, var(--theme-soft-from))' }}>
       <div className="max-w-7xl mx-auto px-4">
@@ -47,7 +48,8 @@ export default function BhaktiVikshaSection() {
             desc="A support network where families and senior devotees look after one another through life's journey."
           />
           <InfoCard
-            icon="🙏"
+            image="/images/together_serve_1.jpg"
+            imageClassName="w-full h-44 mb-4 flex items-center justify-center overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-md"
             title="Service Opportunities"
             desc="Engage in meaningful temple and community service suited to your time and stage of life."
           />
