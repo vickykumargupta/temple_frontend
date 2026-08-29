@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { validateInvite, acceptInvite } from '../../services/mail'
+import { clearAuth } from '../../services/api'
 import { PASSWORD_RULES, getPasswordErrors } from '../../utils/passwordValidation'
 
 const inputBase =
@@ -65,6 +66,9 @@ export default function AcceptInvitePage() {
   const [submitError, setSubmitError] = useState(null)
 
   useEffect(() => {
+    // Clear any active session to prevent showing other accounts' details during setup
+    clearAuth()
+    
     if (!token) {
       setError('Missing invite token. Use the link from your email.')
       setLoading(false)

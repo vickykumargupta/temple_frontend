@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { getAllAdmins, approveAdmin, rejectAdmin } from '../../services/api'
+import { sanitizeAndAutofillEmail } from '../../utils/emailSanitizer'
 import { createInvite } from '../../services/mail'
 
 function StatusBadge({ status }) {
@@ -103,15 +104,33 @@ function InviteModal({ onClose, onSent }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
 
-  function handleChange(e) {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
+  const phoneRef = useRef(null)
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setSubmitting(true)
+    if (e) e.preventDefault()
     setError(null)
+
+    if (!form.fullName.trim()) {
+      setError('Please enter the full name.')
+      nameRef.current?.focus()
+      return
+    }
+
+    if (form.phone && form.phone.length !== 10) {
+      setError('Phone number must be exactly 10 digits.')
+      phoneRef.current?.focus()
+      return
+    }
+
+    if (!form.email.includes('@')) {
+      setError('Email must contain "@" character (e.g. @gmail.com).')
+      emailRef.current?.focus()
+      return
+    }
+
+    setSubmitting(true)
     try {
       const data = await createInvite(form)
       onSent(data)
@@ -140,10 +159,20 @@ function InviteModal({ onClose, onSent }) {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
             <input
+              ref={nameRef}
               name="fullName"
               type="text"
               value={form.fullName}
-              onChange={handleChange}
+              onChange={(e) => {
+                const val = e.target.value.replace(/[0-9]/g, '')
+                setForm((prev) => ({ ...prev, fullName: val }))
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  emailRef.current?.focus()
+                }
+              }}
               className={inputBase}
               style={inputStyle}
               placeholder="Devotee name"
@@ -153,10 +182,27 @@ function InviteModal({ onClose, onSent }) {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
             <input
+              ref={emailRef}
               name="email"
               type="email"
               value={form.email}
-              onChange={handleChange}
+              onChange={(e) => {
+                setForm((prev) => ({ ...prev, email: e.target.value }))
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  const val = e.target.value
+                  const nextEmail = sanitizeAndAutofillEmail(val)
+                  setForm((prev) => ({ ...prev, email: nextEmail }))
+                  phoneRef.current?.focus()
+                }
+              }}
+              onBlur={(e) => {
+                const val = e.target.value
+                const nextEmail = sanitizeAndAutofillEmail(val)
+                setForm((prev) => ({ ...prev, email: nextEmail }))
+              }}
               className={inputBase}
               style={inputStyle}
               placeholder="devotee@example.com"
@@ -166,10 +212,16 @@ function InviteModal({ onClose, onSent }) {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
             <input
+              ref={phoneRef}
               name="phone"
               type="tel"
               value={form.phone}
-              onChange={handleChange}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, '')
+                if (val.length <= 10) {
+                  setForm((prev) => ({ ...prev, phone: val }))
+                }
+              }}
               className={inputBase}
               style={inputStyle}
               placeholder="e.g. 9876543210"

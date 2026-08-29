@@ -93,14 +93,19 @@ export default function AuthPage() {
         })
       }
 
+      const role = data.user?.role || data.devotee?.role
       setAuth({
         token: data.token,
-        role: data.user?.role || data.devotee?.role,
+        role,
         email: data.user?.email || data.devotee?.email,
         isSuperAdmin: data.user?.isSuperAdmin || false,
         fullName: data.user?.fullName || data.devotee?.fullName,
       })
-      navigate('/dashboard', { replace: true })
+      if (role === 'admin') {
+        navigate('/dashboard', { replace: true })
+      } else {
+        navigate('/', { replace: true })
+      }
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {

@@ -48,6 +48,10 @@ export default function Dashboard() {
       navigate('/login', { replace: true })
       return
     }
+    if (!isAdmin) {
+      navigate('/', { replace: true })
+      return
+    }
     load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, isAdmin])

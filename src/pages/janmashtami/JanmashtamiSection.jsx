@@ -1,17 +1,18 @@
 import { useRef, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import QRCode from 'qrcode'
 import RegistrationForm from '../../components/RegistrationForm'
 import VolunteerForm from '../volunteer/VolunteerForm'
 import { ImageCard } from '../../components/ui'
 
 export default function JanmashtamiSection() {
-  const marqueeRef = useRef(null)
+  const navigate = useNavigate()
   const heroRef = useRef(null)
-  const [marqueeStopped, setMarqueeStopped] = useState(false)
   const [showEventDetails, setShowEventDetails] = useState(false)
   const [showDonation, setShowDonation] = useState(false)
   const [showVolunteer, setShowVolunteer] = useState(false)
   const [cardVisible, setCardVisible] = useState(false)
+  const [showMobileVolunteer, setShowMobileVolunteer] = useState(false)
   const canvasRef = useRef(null)
   const qrUrl = useRef('')
 
@@ -28,6 +29,9 @@ export default function JanmashtamiSection() {
       }
     }
     window.addEventListener('scroll', handleScroll)
+    // Run once on mount to set initial visibility state
+    handleScroll()
+
     // Also support IntersectionObserver for clean viewport detection
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -69,37 +73,35 @@ export default function JanmashtamiSection() {
     }
   }, [showDonation, upiId, accountName])
 
-  function handleMarqueeEnter() {
-    marqueeRef.current?.stop()
-    setMarqueeStopped(true)
-  }
-
-  function handleMarqueeLeave() {
-    marqueeRef.current?.start()
-    setMarqueeStopped(false)
-  }
-
   return (
     <section id="janmashtami" className="scroll-mt-16">
       {/* HERO SECTION WITH UNIFIED BACKGROUND & TRANSPARENT SCROLL-ANIMATED CARD */}
       <div 
         ref={heroRef}
-        className="relative overflow-hidden text-white min-h-[600px] md:min-h-[872px] flex items-end justify-end bg-cover bg-center"
-        style={{ 
-          backgroundImage: `linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.35)), url('/images/janmashtami_hero_banner.jpg')`,
-        }}
+        className="relative overflow-hidden text-white min-h-[600px] md:min-h-[872px] flex items-end justify-end bg-cover bg-center janmashtami-hero-bg"
       >
         {/* Subtle vignette overlays */}
         <div className="absolute inset-0 bg-slate-950/10 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-950/80 to-transparent pointer-events-none"></div>
 
+        {/* Desktop-only: Top-center title overlay on hero image */}
+        <div className="hidden md:block absolute left-0 right-0 z-20 text-center pointer-events-none" style={{ top: '15px' }}>
+          <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_3px_8px_rgba(0,0,0,0.85)]">
+            Janmashtami
+          </h1>
+          <span className="block text-2xl lg:text-3xl font-bold text-amber-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] mt-1">
+            Celebration 2026
+          </span>
+        </div>
+
+        {/* Desktop-only Volunteer Ribbon */}
         <button
           onClick={() => setShowVolunteer(true)}
-          className="fixed top-24 right-0 z-40 group flex items-center justify-center pl-5 pr-4 py-2.5 md:pl-7 md:pr-6 md:py-3.5 rounded-l-full border border-white/50 ring-2 ring-amber-200/40 bg-gradient-to-r from-amber-500/90 to-orange-400/90 backdrop-blur-md shadow-[0_12px_40px_-5px_rgba(234,88,12,0.65)] transition-all duration-300 hover:scale-105 hover:shadow-[0_18px_55px_-5px_rgba(234,88,12,0.85)] cursor-pointer"
+          className="hidden md:flex fixed top-24 right-0 z-40 group flex items-center justify-center pl-7 pr-6 py-3.5 rounded-l-full border border-white/20 bg-slate-900/50 backdrop-blur-md shadow-lg ring-1 ring-white/10 cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-slate-900/60"
         >
-          <span className="text-white font-extrabold text-sm md:text-lg tracking-wide leading-tight drop-shadow">
+          <span className="text-white font-extrabold text-lg tracking-wide leading-tight drop-shadow">
             One-Day Volunteer
-            <span className="block text-[11px] md:text-xs font-semibold text-amber-100 mt-0.5">Offer your seva this Janmashtami</span>
+            <span className="block text-xs font-semibold text-amber-200 mt-0.5">Offer your seva this Janmashtami</span>
           </span>
         </button>
 
@@ -121,12 +123,6 @@ export default function JanmashtamiSection() {
               </p>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-extrabold mb-1 leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-              Janmashtami
-              <span className="block text-xl sm:text-2xl font-bold mt-0.5 text-amber-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                Celebration 2026
-              </span>
-            </h1>
 
             <p className="text-xs sm:text-sm text-amber-100 mb-1 font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
               ISKCON KR Puram, Bangalore
@@ -156,38 +152,45 @@ export default function JanmashtamiSection() {
             </div>
           </div>
         </div>
-      </div>
+        {/* Mobile-only Volunteer Ribbon (fixed top-right below navbar) */}
+        <div className="md:hidden fixed top-[64px] right-0 z-40">
+          <button
+            onClick={() => setShowVolunteer(true)}
+            className="group flex items-center justify-center pl-4 pr-3 py-2 rounded-bl-2xl border border-white/20 bg-slate-900/60 backdrop-blur-md shadow-lg ring-1 ring-white/10 cursor-pointer transition-all duration-300 active:scale-95"
+          >
+            <span className="text-white font-extrabold text-xs tracking-wide leading-tight drop-shadow">
+              🙏 One-Day Volunteer
+              <span className="block text-[10px] font-semibold text-amber-300 mt-0.5">Offer your seva this Janmashtami</span>
+            </span>
+          </button>
+        </div>
 
-      {/* Mobile-only CTA strip (replaces hero glass card on phones) */}
-      <div className="md:hidden px-3 py-3.5 flex gap-2.5 justify-center" style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>
-        <a
-          href="#register"
-          className="font-bold px-5 py-2.5 rounded-full shadow-xl transition-all duration-300 hover:scale-105 text-center text-slate-950 text-xs sm:text-sm flex items-center justify-center"
-          style={{ background: 'linear-gradient(90deg, #fbbf24, #f59e0b)' }}
-        >
-          <span className="text-sm font-extrabold">Register</span>
-          <span className="text-xs font-medium ml-1">Now</span>
-        </a>
-        <a
-          href="#event-schedule"
-          className="bg-black/40 font-bold px-5 py-2.5 rounded-full border border-white/40 transition-all duration-300 hover:scale-105 cursor-pointer shadow-md text-center flex items-center justify-center"
-        >
-          <span className="text-base font-extrabold text-amber-300 tracking-wider">Event</span>
-          <span className="text-xs text-amber-100 ml-1">Schedule</span>
-        </a>
+        {/* Mobile-only CTA strip (absolutely positioned 10px above the bottom of the hero container, transparent background) */}
+        <div className="md:hidden absolute bottom-[10px] left-0 right-0 z-30 px-3 py-1.5 flex gap-2.5 justify-center">
+          <div className="flex gap-2.5">
+            <a
+              href="#register"
+              className="font-bold px-5 py-2 rounded-full shadow-xl transition-all duration-300 hover:scale-105 text-center text-slate-950 text-xs sm:text-sm flex items-center justify-center"
+              style={{ background: 'linear-gradient(90deg, #fbbf24, #f59e0b)' }}
+            >
+              <span className="text-sm font-extrabold">Register Now</span>
+            </a>
+            <a
+              href="#event-schedule"
+              className="bg-black/40 font-bold px-5 py-2 rounded-full border border-white/40 transition-all duration-300 hover:scale-105 cursor-pointer shadow-md text-center flex items-center justify-center text-xs sm:text-sm text-white"
+            >
+              <span className="text-base font-extrabold text-amber-300 tracking-wider">Event Schedule</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-2 sm:px-4">
-        <marquee
-          ref={marqueeRef}
-          onMouseEnter={handleMarqueeEnter}
-          onMouseLeave={handleMarqueeLeave}
-          className={`text-sm font-semibold my-6 py-2 rounded-lg transition ${
-            marqueeStopped ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
-          }`}
-        >
-          🎉 Janmashtami Mahotsav - 4th September 2026 | Sri Krishna Janmotsav | ISKCON KR Puram, Bangalore 🎉
-        </marquee>
+        <div className="overflow-x-hidden w-full py-2 bg-red-50 text-red-600 rounded-lg text-sm font-semibold my-6 select-none flex">
+          <div className="animate-marquee-scroll">
+            🎉 Janmashtami Mahotsav - 4th September 2026 | Sri Krishna Janmotsav | ISKCON KR Puram, Bangalore 🎉
+          </div>
+        </div>
       </div>
 
       {/* INNOVATIVE EVENT SCHEDULE & FULL DAY SEVAS SECTION */}
@@ -343,18 +346,6 @@ export default function JanmashtamiSection() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4">
-        <marquee
-          ref={marqueeRef}
-          onMouseEnter={handleMarqueeEnter}
-          onMouseLeave={handleMarqueeLeave}
-          className={`text-sm font-semibold my-6 py-2 rounded-lg transition ${
-            marqueeStopped ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
-          }`}
-        >
-          🎉 Janmashtami Mahotsav - 4th September 2026 | Sri Krishna Janmotsav | ISKCON KR Puram, Bangalore 🎉
-        </marquee>
-      </div>
 
       <div className="bg-white py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
@@ -421,7 +412,7 @@ export default function JanmashtamiSection() {
           <RegistrationForm />
           <div className="mt-12">
             <button
-              onClick={() => setShowDonation(true)}
+              onClick={() => navigate('/donate')}
               className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer"
             >
               Donate Now

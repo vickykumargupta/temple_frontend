@@ -25,10 +25,16 @@ export function ImageCard({ src, fallbackSrc, title, subtitle }) {
   )
 }
 
-export function InfoCard({ icon, title, desc, to }) {
+export function InfoCard({ icon, image, imageClassName, title, desc, to }) {
   const inner = (
     <>
-      <div className="text-4xl mb-4">{icon}</div>
+      {image ? (
+        <div className={imageClassName || "w-16 h-16 mb-4 flex items-center justify-center overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm p-1"}>
+          <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+        </div>
+      ) : (
+        <div className="text-4xl mb-4">{icon}</div>
+      )}
       <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
       <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
       {to && (

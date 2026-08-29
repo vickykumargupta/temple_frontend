@@ -3,7 +3,8 @@ import ProgramRegistrationForm from '../../components/ProgramRegistrationForm'
 import { registerIyf, getAuth } from '../../services/api'
 
 export default function IyfSection() {
-  const email = getAuth()?.email || ''
+  const auth = getAuth()
+  const email = auth?.role === 'admin' ? '' : (auth?.email || '')
   return (
     <section id="iyf" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}>
       <div className="max-w-7xl mx-auto px-4">
@@ -20,25 +21,25 @@ export default function IyfSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           <InfoCard
-            icon="📖"
+            image="/images/iyf_gita_classes.png"
             title="Gita Classes"
             desc="Weekly classes and courses like Discover Your Self (DYS), helping students understand the science of the soul."
             to="/iyf/gita-classes"
           />
           <InfoCard
-            icon="🗣️"
+            image="/images/iyf_personality_dev.png"
             title="Personality Development"
             desc="Public speaking, leadership, debates and soft-skill training to build confidence and character."
             to="/iyf/personality-development"
           />
           <InfoCard
-            icon="🎵"
+            image="/images/iyf_kirtan_culture.png"
             title="Kirtan & Culture"
             desc="Music, drama, mantra meditation and cultural programs that make spiritual life joyful."
             to="/iyf/kirtan-culture"
           />
           <InfoCard
-            icon="🧘"
+            image="/images/iyf_retreats_camps.png"
             title="Retreats & Camps"
             desc="Yoga retreats, picnics and residential camps to rejuvenate the mind, body and soul."
             to="/iyf/retreats-camps"
@@ -50,7 +51,7 @@ export default function IyfSection() {
             to="/iyf/campus-preaching"
           />
           <InfoCard
-            icon="🙏"
+            image="/images/iyf_community_service.png"
             title="Community Service"
             desc="Harinama sankirtana, book distribution and serving prasadam to the wider community."
             to="/iyf/community-service"

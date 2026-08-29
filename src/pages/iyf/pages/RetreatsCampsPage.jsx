@@ -15,22 +15,22 @@ export default function RetreatsCampsPage() {
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--theme-soft-to)' }}>
-            <span className="text-3xl">🧘</span>
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-white border border-gray-100 shadow-sm p-2">
+            <img src="/images/iyf_retreats_camps.png" alt="Retreats & Camps Icon" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Retreats & Camps</h1>
         </div>
         
         <p className="text-gray-600 text-lg max-w-2xl mb-10 leading-relaxed">
-          Yoga retreats, picnics and residential camps to rejuvenate the mind, body and soul.
+          Nature retreats, outdoor picnics, and rejuvenating camps for city youth and young families.
         </p>
 
-        {/* Placeholder Layout for content */}
-        <div className="bg-gray-50 border border-gray-100 rounded-2xl p-8 mb-12 text-center text-gray-500">
-          <p className="mb-4">Content coming soon...</p>
-          <div className="aspect-video bg-gray-200 rounded-xl max-w-2xl mx-auto flex items-center justify-center">
-            <span className="text-gray-400">Image Placeholder</span>
-          </div>
+        {/* Feature Display */}
+        <div className="bg-gradient-to-br from-emerald-50/50 to-white border border-gray-100 rounded-3xl p-6 md:p-8 mb-12 shadow-sm flex flex-col items-center text-center">
+          <img src="/images/iyf_retreats_camps.png" alt="Retreats & Camps for City Youth & Families" className="w-full max-w-md h-auto object-contain rounded-2xl shadow-xl mb-6 hover:scale-105 transition-transform duration-500" />
+          <p className="text-gray-600 max-w-xl text-base leading-relaxed">
+            Escape the busy urban routine with refreshing spiritual retreats in scenic nature spots, complete with picnics, outdoor mantra meditation, team bonding, and wholesome fun for city youth and young families.
+          </p>
         </div>
 
         <div className="rounded-3xl p-10 text-center text-white" style={{ background: 'linear-gradient(135deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
