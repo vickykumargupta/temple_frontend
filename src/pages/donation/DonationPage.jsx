@@ -402,7 +402,7 @@ export default function DonationPage() {
           </div>
         </div>
 
-        {isAdmin && (
+        {/* {isAdmin && (
           <div className="mt-10">
             <h2 className="text-2xl font-bold text-gray-800 mb-5">Donation Overview</h2>
 
@@ -434,7 +434,7 @@ export default function DonationPage() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   )
