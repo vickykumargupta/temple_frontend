@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import QRCode from 'qrcode'
+import { useEffect, useState } from 'react'
 import DonationManager from '../dashboard/donation/DonationManager'
 import { getAuth, getDonationStats, getDonations, createPublicDonation } from '../../services/api'
 
@@ -57,7 +56,6 @@ function DonationsTable({ donations, loading }) {
 }
 
 export default function DonationPage() {
-  const canvasRef = useRef(null)
   const isAdmin = getAuth()?.role === 'admin'
   const [stats, setStats] = useState(null)
   const [donations, setDonations] = useState(null)
@@ -70,8 +68,8 @@ export default function DonationPage() {
   const [donateAmount, setDonateAmount] = useState('1008')
   const [donatePhone, setDonatePhone] = useState('')
   const [donateEmail, setDonateEmail] = useState(auth?.email || '@gmail.com')
-  const [upiId, setUpiId] = useState('iskconkrpuram@upi')
-  const [accountName, setAccountName] = useState('ISKCON KR Puram')
+  // QR image is fetched from backend — UPI ID never lives in frontend code
+  const [qrSrc, setQrSrc] = useState('/api/donations/qr?amount=1008&note=Donation+for+Temple+Services')
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [utrDigits, setUtrDigits] = useState('')
@@ -112,14 +110,7 @@ export default function DonationPage() {
   }
 
   useEffect(() => {
-    fetch('/api/donations/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.upiId) setUpiId(data.upiId)
-        if (data.accountName) setAccountName(data.accountName)
-      })
-      .catch((err) => console.error('Error loading donation settings:', err))
-
+    // Load devotee profile fields if logged in (no UPI fetch needed — QR comes from backend)
     const authState = getAuth()
     if (authState && authState.token && authState.role === 'devotee') {
       fetch('/api/devotee/profile', {
@@ -142,18 +133,11 @@ export default function DonationPage() {
     }
   }, [])
 
+  // Update QR image URL whenever the amount changes — backend generates the actual QR PNG
   useEffect(() => {
-    if (canvasRef.current) {
-      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(accountName)}&am=${donateAmount || '0'}&cu=INR&tn=Donation%20for%20Temple%20Services`
-      QRCode.toCanvas(canvasRef.current, upiUrl, {
-        width: 200,
-        margin: 2,
-        color: { dark: '#0f172a', light: '#ffffff' },
-      }, (err) => {
-        if (err) console.error(err)
-      })
-    }
-  }, [donateAmount, upiId, accountName])
+    const amount = donateAmount || '0'
+    setQrSrc(`/api/donations/qr?amount=${encodeURIComponent(amount)}&note=Donation+for+Temple+Services`)
+  }, [donateAmount])
 
   function loadData() {
     if (!isAdmin) return
@@ -359,9 +343,15 @@ export default function DonationPage() {
                   🛡️ Secure UPI Payment
                 </span>
                 
-                {/* Dynamic QR canvas */}
+                {/* QR image served from backend — UPI ID never exposed to browser */}
                 <div className="bg-white p-4 rounded-2xl shadow-md border border-slate-200/50">
-                  <canvas ref={canvasRef} className="mx-auto rounded-lg"></canvas>
+                  <img
+                    src={qrSrc}
+                    alt="UPI Payment QR Code"
+                    width={200}
+                    height={200}
+                    className="mx-auto rounded-lg"
+                  />
                 </div>
                 
                 <p className="text-xs font-bold text-slate-700 mt-4">
@@ -369,16 +359,17 @@ export default function DonationPage() {
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Scan with GPay, PhonePe, Paytm, or BHIM</p>
 
-                {/* Mobile intent payment button */}
+                {/* Mobile intent payment button — UPI ID resolved server-side */}
                 <div className="w-full mt-4 block md:hidden">
                   <a
-                    href={`upi://pay?pa=${upiId}&pn=${encodeURIComponent(accountName)}&am=${donateAmount || '0'}&cu=INR&tn=Donation%20for%20Temple%20Services`}
+                    href={`/api/donations/upi-intent?amount=${encodeURIComponent(donateAmount || '0')}&note=Donation+for+Temple+Services`}
                     className="w-full bg-slate-950 hover:bg-black text-white font-extrabold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg transition active:scale-95 text-xs sm:text-sm"
                   >
                     🚀 Pay via UPI App (GPay/PhonePe)
                   </a>
                 </div>
               </div>
+
 
             </form>
           </div>

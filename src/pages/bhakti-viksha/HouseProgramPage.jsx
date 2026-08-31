@@ -2,16 +2,12 @@ import { Link } from 'react-router-dom'
 import { InfoCard } from '../../components/ui'
 
 const IMG = {
-  kirtan:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ISKCON_Tirupati_Pushpa_Abhisec2.JPG/960px-ISKCON_Tirupati_Pushpa_Abhisec2.JPG',
-  kirtanChildren:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Kirtan_with_Children.jpg/960px-Kirtan_with_Children.jpg',
+  kirtan: '/images/house_K2.jpg',
+  kirtanChildren: '/images/prabhupaad.jpg',
   kirtanMoody:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Aindra_Dasa_Kartik_2009.JPG/960px-Aindra_Dasa_Kartik_2009.JPG',
-  harinam:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Russian_Hare_Krishna_devotees_on_Harinam.jpg/960px-Russian_Hare_Krishna_devotees_on_Harinam.jpg',
-  kirtanSaptah:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Harinam_Saptah_Kirtan.jpg/960px-Harinam_Saptah_Kirtan.jpg',
+  harinam: '/images/nagar_sankeerthan2.jpg',
+  kirtanSaptah: '/images/nagar_sankeerthan1.jpg',
 }
 
 export default function HouseProgramPage() {
@@ -30,11 +26,11 @@ export default function HouseProgramPage() {
           </p>
         </div>
 
-        <div className="rounded-3xl overflow-hidden shadow-xl mb-14">
+        <div className="rounded-3xl overflow-hidden shadow-xl mb-14 relative z-10 hover:z-30 transition-all duration-300 hover:scale-108 transform cursor-pointer -mx-[8px]">
           <img
             src={IMG.kirtan}
             alt="Devotees gathered before the deities at an ISKCON ceremony"
-            className="w-full h-72 md:h-96 object-cover"
+            className="w-full h-72 md:h-96 object-cover relative z-10"
             loading="lazy"
             onError={(e) => {
               if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah
@@ -43,7 +39,7 @@ export default function HouseProgramPage() {
         </div>
 
         {/* ===================== THE THREE ESSENCES ===================== */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14 -mx-[8px]">
           <InfoCard
             icon="🪘"
             title="Kirtan"
@@ -62,7 +58,7 @@ export default function HouseProgramPage() {
         </div>
 
         {/* ===================== WHAT TO EXPECT ===================== */}
-        <div className="rounded-3xl p-8 md:p-12 mb-14 text-white" style={{ background: 'linear-gradient(135deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
+        <div className="rounded-3xl p-8 md:p-12 mb-14 text-white -mx-[8px]" style={{ background: 'linear-gradient(135deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">What to expect at a house program</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
@@ -87,18 +83,18 @@ export default function HouseProgramPage() {
         {/* ===================== GALLERY ===================== */}
         <div className="mb-14">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">Kirtan & community, in pictures</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.kirtanChildren} alt="Kirtan with children" className="w-full h-40 md:h-48 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah }} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 -mx-[8px]">
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.kirtanChildren} alt="Srila Prabhupada portrait" className="w-full h-[195px] md:h-[235px] object-cover relative z-10" loading="lazy" />
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.kirtanMoody} alt="Evening kirtan by candlelight" className="w-full h-40 md:h-48 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah }} />
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.kirtanMoody} alt="Evening kirtan by candlelight" className="w-full h-[195px] md:h-[235px] object-cover relative z-10" loading="lazy" />
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.harinam} alt="Harinam kirtan on the streets" className="w-full h-40 md:h-48 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah }} />
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.harinam} alt="Nagar Sankeerthan street gathering" className="w-full h-[195px] md:h-[235px] object-cover relative z-10" loading="lazy" />
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.kirtanSaptah} alt="Kirtan gathering" className="w-full h-40 md:h-48 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.harinam) e.target.src = IMG.harinam }} />
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.kirtanSaptah} alt="Nagar Sankeerthan outdoor group" className="w-full h-[195px] md:h-[235px] object-cover relative z-10" loading="lazy" />
             </div>
           </div>
         </div>

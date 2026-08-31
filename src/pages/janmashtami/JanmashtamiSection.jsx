@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import QRCode from 'qrcode'
 import RegistrationForm from '../../components/RegistrationForm'
 import VolunteerForm from '../volunteer/VolunteerForm'
 import { ImageCard } from '../../components/ui'
@@ -13,13 +12,7 @@ export default function JanmashtamiSection() {
   const [showVolunteer, setShowVolunteer] = useState(false)
   const [cardVisible, setCardVisible] = useState(false)
   const [showMobileVolunteer, setShowMobileVolunteer] = useState(false)
-  const canvasRef = useRef(null)
-  const qrUrl = useRef('')
 
-  useEffect(() => {
-    const host = window.location.hostname
-    qrUrl.current = `http://${host}:3000/donation/thank-you`
-  }, [])
 
   // Scroll observer to trigger card entrance animation on scroll
   useEffect(() => {
@@ -49,29 +42,8 @@ export default function JanmashtamiSection() {
     }
   }, [])
 
-  const [upiId, setUpiId] = useState('iskconkrpuram@upi')
-  const [accountName, setAccountName] = useState('ISKCON KR Puram')
-
-  useEffect(() => {
-    fetch('/api/donations/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.upiId) setUpiId(data.upiId)
-        if (data.accountName) setAccountName(data.accountName)
-      })
-      .catch((err) => console.error('Error loading donation settings:', err))
-  }, [])
-
-  useEffect(() => {
-    if (showDonation && canvasRef.current) {
-      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(accountName)}&cu=INR&tn=Donation%20for%20Janmashtami`
-      QRCode.toCanvas(canvasRef.current, upiUrl, {
-        width: 220,
-        margin: 2,
-        color: { dark: '#15803d', light: '#ffffff' },
-      })
-    }
-  }, [showDonation, upiId, accountName])
+  // QR image is served from backend — UPI ID never appears in frontend code
+  const [qrSrc] = useState('/api/donations/qr?amount=0&note=Donation+for+Janmashtami')
 
   return (
     <section id="janmashtami" className="scroll-mt-16">
@@ -485,15 +457,22 @@ export default function JanmashtamiSection() {
                 🛡️ Secure UPI Payment
               </span>
               <div className="bg-white p-3 rounded-xl shadow-md border border-slate-200/50">
-                <canvas ref={canvasRef} className="rounded-lg"></canvas>
+                {/* QR image served from backend — UPI ID never exposed in frontend code */}
+                <img
+                  src={qrSrc}
+                  alt="UPI Donation QR Code"
+                  width={220}
+                  height={220}
+                  className="rounded-lg"
+                />
               </div>
               <p className="text-xs text-slate-600 mt-3 font-semibold">Scan to send donation</p>
               <p className="text-[10px] text-slate-400">Receive a personal thank-you message 🙏</p>
 
-              {/* Mobile intent payment link */}
+              {/* Mobile intent payment link — UPI ID resolved server-side */}
               <div className="w-full mt-4 block md:hidden">
                 <a
-                  href={`upi://pay?pa=${upiId}&pn=${encodeURIComponent(accountName)}&cu=INR&tn=Donation%20for%20Janmashtami`}
+                  href="/api/donations/upi-intent?amount=0&note=Donation+for+Janmashtami"
                   className="w-full bg-slate-900 hover:bg-black text-white font-bold py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md transition text-[11px]"
                 >
                   🚀 Pay via UPI App

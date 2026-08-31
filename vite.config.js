@@ -11,7 +11,7 @@ export default defineConfig({
         target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         configure: (proxy) => {
-          proxy.on('error', () => {})
+          proxy.on('error', (err, req, res) => {})
         }
       },
       '/ws': {
@@ -19,7 +19,13 @@ export default defineConfig({
         ws: true,
         changeOrigin: true,
         configure: (proxy) => {
-          proxy.on('error', () => {})
+          proxy.on('error', (err, req, res) => {})
+          proxy.on('proxyReqWs', (proxyReq, req, socket, options, head) => {
+            socket.on('error', () => {})
+          })
+          proxy.on('open', (proxySocket) => {
+            proxySocket.on('error', () => {})
+          })
         }
       }
     }
