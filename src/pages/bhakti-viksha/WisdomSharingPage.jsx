@@ -2,13 +2,10 @@ import { Link } from 'react-router-dom'
 import { InfoCard } from '../../components/ui'
 
 const IMG = {
-  gita: 'https://upload.wikimedia.org/wikipedia/en/9/91/BGita_As_It_Is.jpg',
-  kirtan:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Radha_Kalachandji_-_ISKCON_Dallas_Bhakti_Circle_Meditation_Group_2023_May_14_%2844%29_05.jpg/960px-Radha_Kalachandji_-_ISKCON_Dallas_Bhakti_Circle_Meditation_Group_2023_May_14_%2844%29_05.jpg',
-  harinam:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Russian_Hare_Krishna_devotees_on_Harinam.jpg/960px-Russian_Hare_Krishna_devotees_on_Harinam.jpg',
-  kirtanSaptah:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Harinam_Saptah_Kirtan.jpg/960px-Harinam_Saptah_Kirtan.jpg',
+  gita: '/images/bg_asitis.jpg',
+  kirtan: '/images/wisdom_sharing.jpg',
+  harinam: '/images/japa_retreat.jpg',
+  kirtanSaptah: '/images/bps_exam.jpg',
 }
 
 export default function WisdomSharingPage() {
@@ -27,30 +24,24 @@ export default function WisdomSharingPage() {
           </p>
         </div>
 
-        <div className="rounded-3xl overflow-hidden shadow-xl mb-14">
+        <div className="rounded-3xl overflow-hidden shadow-xl mb-14 relative z-10 hover:z-30 transition-all duration-300 hover:scale-108 transform cursor-pointer">
           <img
             src={IMG.kirtan}
             alt="A group of devotees sitting together in meditation"
-            className="w-full h-72 md:h-96 object-cover"
+            className="w-full h-72 md:h-96 object-cover relative z-10"
             loading="lazy"
-            onError={(e) => {
-              if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah
-            }}
           />
         </div>
 
         {/* ===================== BOOK READING ===================== */}
         <div className="rounded-3xl p-8 md:p-12 mb-10 bg-white shadow-xl border border-gray-100">
           <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="md:w-1/3 shrink-0">
+            <div className="md:w-1/3 shrink-0 relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
               <img
                 src={IMG.gita}
                 alt="Bhagavad-gita As It Is by Srila Prabhupada"
-                className="w-full max-w-xs mx-auto rounded-2xl shadow-2xl"
+                className="w-full max-w-xs mx-auto rounded-2xl shadow-2xl relative z-10"
                 loading="lazy"
-                onError={(e) => {
-                  if (e.target.src !== IMG.harinam) e.target.src = IMG.harinam
-                }}
               />
             </div>
             <div className="md:w-2/3">
@@ -103,15 +94,18 @@ export default function WisdomSharingPage() {
         {/* ===================== GALLERY ===================== */}
         <div className="mb-14">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">Hearing & chanting, together</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.kirtanSaptah} alt="A class and kirtan gathering" className="w-full h-44 md:h-56 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.harinam) e.target.src = IMG.harinam }} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -mx-[20px]">
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.kirtanSaptah} alt="Bhakti Sastri Exam gathering" className="w-full h-44 md:h-56 object-cover" loading="lazy" />
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.harinam} alt="Devotees chanting the holy names" className="w-full h-44 md:h-56 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah }} />
+            <div className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer">
+              <img src={IMG.harinam} alt="Japa Retreat devotees chanting" className="w-full h-44 md:h-56 object-cover" loading="lazy" />
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img src={IMG.gita} alt="Bhagavad-gita As It Is" className="w-full h-44 md:h-56 object-cover" loading="lazy" onError={(e) => { if (e.target.src !== IMG.kirtanSaptah) e.target.src = IMG.kirtanSaptah }} />
+            <div 
+              className="rounded-2xl overflow-hidden shadow-lg relative z-10 hover:z-30 transition-all duration-300 hover:scale-112 transform cursor-pointer flex items-center justify-center p-4 h-44 md:h-56 border border-white/20 shadow-md"
+              style={{ backgroundImage: "url('/images/gita_glass_bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
+              <img src={IMG.gita} alt="Bhagavad-gita As It Is book cover" className="max-h-full max-w-full object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.55)] relative z-10" loading="lazy" />
             </div>
           </div>
         </div>
