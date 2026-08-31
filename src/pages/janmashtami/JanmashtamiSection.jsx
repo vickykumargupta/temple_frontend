@@ -69,11 +69,11 @@ export default function JanmashtamiSection() {
         {/* Desktop-only Volunteer Ribbon */}
         <button
           onClick={() => setShowVolunteer(true)}
-          className="hidden md:flex fixed top-24 right-0 z-40 group flex items-center justify-center pl-7 pr-6 py-3.5 rounded-l-full border border-white/20 bg-slate-900/50 backdrop-blur-md shadow-lg ring-1 ring-white/10 cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-slate-900/60"
+          className="hidden md:flex fixed top-24 right-0 z-40 group flex items-center justify-center pl-7 pr-6 py-3.5 rounded-l-full border border-white/50 ring-2 ring-amber-200/40 bg-gradient-to-r from-amber-500/90 to-orange-400/90 backdrop-blur-md shadow-[0_12px_40px_-5px_rgba(234,88,12,0.65)] cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-[0_18px_55px_-5px_rgba(234,88,12,0.85)]"
         >
           <span className="text-white font-extrabold text-lg tracking-wide leading-tight drop-shadow">
             One-Day Volunteer
-            <span className="block text-xs font-semibold text-amber-200 mt-0.5">Offer your seva this Janmashtami</span>
+            <span className="block text-xs font-semibold text-amber-100 mt-0.5">Offer your seva this Janmashtami</span>
           </span>
         </button>
 
@@ -125,14 +125,13 @@ export default function JanmashtamiSection() {
           </div>
         </div>
         {/* Mobile-only Volunteer Ribbon (fixed top-right below navbar) */}
-        <div className="md:hidden fixed top-[64px] right-0 z-40">
+        <div className="md:hidden fixed top-50 right-0 z-40">
           <button
             onClick={() => setShowVolunteer(true)}
-            className="group flex items-center justify-center pl-4 pr-3 py-2 rounded-bl-2xl border border-white/20 bg-slate-900/60 backdrop-blur-md shadow-lg ring-1 ring-white/10 cursor-pointer transition-all duration-300 active:scale-95"
+            className="group flex items-center justify-center pl-3 pr-2.5 py-1.5 rounded-l-full border border-white/50 ring-1 ring-amber-200/40 bg-gradient-to-r from-amber-500/90 to-orange-400/90 backdrop-blur-md shadow-[0_8px_25px_-5px_rgba(234,88,12,0.6)] cursor-pointer transition-all duration-300 active:scale-95"
           >
-            <span className="text-white font-extrabold text-xs tracking-wide leading-tight drop-shadow">
-              🙏 One-Day Volunteer
-              <span className="block text-[10px] font-semibold text-amber-300 mt-0.5">Offer your seva this Janmashtami</span>
+            <span className="text-white font-bold text-[11px] tracking-wide leading-tight drop-shadow">
+              🙏 Volunteer
             </span>
           </button>
         </div>
