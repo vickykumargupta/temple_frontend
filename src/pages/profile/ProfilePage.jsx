@@ -31,6 +31,7 @@ export default function ProfilePage() {
   const [pwSaving, setPwSaving] = useState(false)
   const [pwError, setPwError] = useState(null)
   const [pwSuccess, setPwSuccess] = useState(null)
+  const [fieldErrors, setFieldErrors] = useState({})
 
   useEffect(() => {
     if (!auth) {
@@ -53,13 +54,52 @@ export default function ProfilePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  function validateField(name, value) {
+    if (name === 'phone') {
+      if (!value.trim()) return 'Phone is required'
+      if (!/^[6-9]\d{0,9}$/.test(value.trim())) return 'Phone must start with 6-9 and contain only digits'
+      if (value.trim().length < 10) return 'Phone must be 10 digits'
+      return null
+    }
+    if (name === 'pincode') {
+      if (!value.trim()) return 'Pincode is required'
+      if (!/^\d{0,6}$/.test(value.trim())) return 'Pincode must contain only digits'
+      if (value.trim().length < 6) return 'Pincode must be 6 digits'
+      return null
+    }
+    return null
+  }
+
   function handleChange(e) {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
+    let filtered = value
+    if (name === 'pincode') filtered = value.replace(/\D/g, '').slice(0, 6)
+    if (name === 'phone') filtered = value.replace(/\D/g, '').slice(0, 10)
+    setForm((prev) => ({ ...prev, [name]: filtered }))
+    const err = validateField(name, filtered)
+    setFieldErrors((prev) => ({ ...prev, [name]: err }))
+  }
+
+  function validateProfile() {
+    const errs = {}
+    if (!form.phone?.trim()) errs.phone = 'Phone is required'
+    else if (!/^[6-9]\d{9}$/.test(form.phone.trim())) errs.phone = 'Enter a valid 10-digit phone number starting with 6-9'
+    if (!form.address?.trim()) errs.address = 'Address is required'
+    else if (form.address.trim().length > 500) errs.address = 'Address must be under 500 characters'
+    if (!form.city?.trim()) errs.city = 'City is required'
+    else if (form.city.trim().length > 100) errs.city = 'City must be under 100 characters'
+    if (!form.state?.trim()) errs.state = 'State is required'
+    else if (form.state.trim().length > 100) errs.state = 'State must be under 100 characters'
+    if (!form.pincode?.trim()) errs.pincode = 'Pincode is required'
+    else if (!/^\d{6}$/.test(form.pincode.trim())) errs.pincode = 'Enter a valid 6-digit pincode'
+    return errs
   }
 
   async function handleSave(e) {
     e.preventDefault()
+    const errs = validateProfile()
+    setFieldErrors(errs)
+    if (Object.keys(errs).length > 0) return
     setSaving(true)
     setError(null)
     setSuccess(null)
@@ -271,24 +311,29 @@ export default function ProfilePage() {
             ) : (
               <form onSubmit={handleSave} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone</label>
-                  <input name="phone" type="tel" value={form.phone} onChange={handleChange} className={inputBase} style={inputStyle} />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone <span className="text-red-500">*</span></label>
+                  <input name="phone" type="tel" inputMode="numeric" pattern="[0-9]*" value={form.phone} onChange={handleChange} maxLength={10} required className={`${inputBase} ${fieldErrors.phone ? 'border-red-500 focus:outline-none ring-2 ring-red-300' : ''}`} style={fieldErrors.phone ? {} : inputStyle} />
+                  {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">City</label>
-                  <input name="city" type="text" value={form.city} onChange={handleChange} className={inputBase} style={inputStyle} />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">City <span className="text-red-500">*</span></label>
+                  <input name="city" type="text" value={form.city} onChange={handleChange} maxLength={100} required className={`${inputBase} ${fieldErrors.city ? 'border-red-500 focus:outline-none ring-2 ring-red-300' : ''}`} style={fieldErrors.city ? {} : inputStyle} />
+                  {fieldErrors.city && <p className="mt-1 text-xs text-red-600">{fieldErrors.city}</p>}
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Address</label>
-                  <input name="address" type="text" value={form.address} onChange={handleChange} className={inputBase} style={inputStyle} />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Address <span className="text-red-500">*</span></label>
+                  <input name="address" type="text" value={form.address} onChange={handleChange} maxLength={500} required className={`${inputBase} ${fieldErrors.address ? 'border-red-500 focus:outline-none ring-2 ring-red-300' : ''}`} style={fieldErrors.address ? {} : inputStyle} />
+                  {fieldErrors.address && <p className="mt-1 text-xs text-red-600">{fieldErrors.address}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">State</label>
-                  <input name="state" type="text" value={form.state} onChange={handleChange} className={inputBase} style={inputStyle} />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">State <span className="text-red-500">*</span></label>
+                  <input name="state" type="text" value={form.state} onChange={handleChange} maxLength={100} required className={`${inputBase} ${fieldErrors.state ? 'border-red-500 focus:outline-none ring-2 ring-red-300' : ''}`} style={fieldErrors.state ? {} : inputStyle} />
+                  {fieldErrors.state && <p className="mt-1 text-xs text-red-600">{fieldErrors.state}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Pincode</label>
-                  <input name="pincode" type="text" value={form.pincode} onChange={handleChange} className={inputBase} style={inputStyle} />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Pincode <span className="text-red-500">*</span></label>
+                  <input name="pincode" type="tel" inputMode="numeric" pattern="[0-9]*" value={form.pincode} onChange={handleChange} maxLength={6} required className={`${inputBase} ${fieldErrors.pincode ? 'border-red-500 focus:outline-none ring-2 ring-red-300' : ''}`} style={fieldErrors.pincode ? {} : inputStyle} />
+                  {fieldErrors.pincode && <p className="mt-1 text-xs text-red-600">{fieldErrors.pincode}</p>}
                 </div>
                 <div className="sm:col-span-2 flex gap-3">
                   <button
