@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { InfoCard } from '../../components/ui'
 import ProgramRegistrationForm from '../../components/ProgramRegistrationForm'
 import { registerIyf, getAuth } from '../../services/api'
@@ -20,6 +21,46 @@ export default function IyfSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+          <div className="relative group">
+            <Link
+              to="/iyf/retreats-camps"
+              className="block bg-gradient-to-b from-amber-50/40 via-white to-white rounded-2xl shadow-md p-7 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border-2 border-amber-400/60 ring-4 ring-amber-400/10 h-full relative overflow-hidden"
+            >
+              <div className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md animate-pulse">
+                🌟 Spotlight
+              </div>
+              <div className="w-16 h-16 mb-4 flex items-center justify-center overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm p-1">
+                <img src="/images/iyf_retreats_camps.png" alt="Retreats & Camps" className="w-full h-full object-cover animate-breathe-zoom" />
+              </div>
+              <h3 className="text-xl font-extrabold text-gray-900 mb-1 flex items-center gap-1.5">
+                Retreats & Camps
+              </h3>
+              <p className="text-[13px] md:text-xs text-amber-700 font-bold mb-3 tracking-wide">
+                Special Youth Outings & Immersive Programs
+              </p>
+              <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                Yoga retreats, holy yatras, festive camps & spiritual residential home stays to rejuvenate the mind and soul.
+              </p>
+
+              {/* Three Interactive Program Badges */}
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                <span className="inline-flex items-center gap-1 bg-amber-100/80 text-amber-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-amber-200 shadow-xs">
+                  🎪 Youth Fest
+                </span>
+                <span className="inline-flex items-center gap-1 bg-orange-100/80 text-orange-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-orange-200 shadow-xs">
+                  🚩 Yatra Retreat
+                </span>
+                <span className="inline-flex items-center gap-1 bg-emerald-100/80 text-emerald-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-emerald-200 shadow-xs">
+                  🏡 Krishna&apos;s Home
+                </span>
+              </div>
+
+              <span className="inline-flex items-center text-sm font-extrabold text-amber-600 group-hover:text-amber-700">
+                Choose Program & Register →
+              </span>
+            </Link>
+          </div>
+
           <InfoCard
             image="/images/iyf_gita_classes.png"
             title="Gita Classes"
@@ -37,12 +78,6 @@ export default function IyfSection() {
             title="Kirtan & Culture"
             desc="Music, drama, mantra meditation and cultural programs that make spiritual life joyful."
             to="/iyf/kirtan-culture"
-          />
-          <InfoCard
-            image="/images/iyf_retreats_camps.png"
-            title="Retreats & Camps"
-            desc="Yoga retreats, picnics and residential camps to rejuvenate the mind, body and soul."
-            to="/iyf/retreats-camps"
           />
           <InfoCard
             icon="🏫"

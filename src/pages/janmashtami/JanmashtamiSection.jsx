@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import RegistrationForm from '../../components/RegistrationForm'
 import VolunteerForm from '../volunteer/VolunteerForm'
 import { ImageCard } from '../../components/ui'
+import { API_BASE } from '../../services/api'
 
 export default function JanmashtamiSection() {
   const navigate = useNavigate()
@@ -43,7 +44,7 @@ export default function JanmashtamiSection() {
   }, [])
 
   // QR image is served from backend — UPI ID never appears in frontend code
-  const [qrSrc] = useState('/api/donations/qr?amount=0&note=Donation+for+Janmashtami')
+  const [qrSrc] = useState(`${API_BASE}/donations/qr?amount=0&note=Donation+for+Janmashtami`)
 
   return (
     <section id="janmashtami" className="scroll-mt-16">
@@ -471,7 +472,7 @@ export default function JanmashtamiSection() {
               {/* Mobile intent payment link — UPI ID resolved server-side */}
               <div className="w-full mt-4 block md:hidden">
                 <a
-                  href="/api/donations/upi-intent?amount=0&note=Donation+for+Janmashtami"
+                  href={`${API_BASE}/donations/upi-intent?amount=0&note=Donation+for+Janmashtami`}
                   className="w-full bg-slate-900 hover:bg-black text-white font-bold py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md transition text-[11px]"
                 >
                   🚀 Pay via UPI App
