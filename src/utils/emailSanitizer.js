@@ -18,10 +18,14 @@ export function sanitizeAndAutofillEmail(val) {
   let provider = dotIdx !== -1 ? domain.substring(0, dotIdx) : domain
   let tld = dotIdx !== -1 ? domain.substring(dotIdx + 1) : ''
 
-  const gmailProviderTypos = ['gmail', 'gmil', 'gamil', 'gml', 'gmile', 'gimail', 'gmal', 'gmaill']
-  const hotmailProviderTypos = ['hotmail', 'hotm', 'htmail', 'hotma']
-  const yahooProviderTypos = ['yahoo', 'yhoo', 'yaho', 'yah']
-  const outlookProviderTypos = ['outlook', 'outl', 'otlook']
+  const gmailProviderTypos = [
+    'gmail', 'gail', 'gmil', 'gamil', 'gmai', 'gmali', 'gml', 'gmile',
+    'gimail', 'gmal', 'gmaill', 'gmaik', 'gnail', 'gmeil', 'gemail', 'gmial',
+    'gmaild', 'gmaol', 'gmaio'
+  ]
+  const hotmailProviderTypos = ['hotmail', 'hotm', 'htmail', 'hotma', 'hotmai', 'hotmial']
+  const yahooProviderTypos = ['yahoo', 'yhoo', 'yaho', 'yah', 'ymail', 'yaaho']
+  const outlookProviderTypos = ['outlook', 'outl', 'otlook', 'outlok', 'outlock']
 
   if (gmailProviderTypos.includes(provider)) {
     provider = 'gmail'
