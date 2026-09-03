@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import DonationManager from '../dashboard/donation/DonationManager'
-import { getAuth, getDonationStats, getDonations, createPublicDonation } from '../../services/api'
+import { API_BASE, getAuth, getDonationStats, getDonations, createPublicDonation } from '../../services/api'
 
 const statCardBase =
   'relative overflow-hidden rounded-2xl p-6 text-white shadow-lg'
@@ -69,7 +69,7 @@ export default function DonationPage() {
   const [donatePhone, setDonatePhone] = useState('')
   const [donateEmail, setDonateEmail] = useState(auth?.email || '@gmail.com')
   // QR image is fetched from backend — UPI ID never lives in frontend code
-  const [qrSrc, setQrSrc] = useState('/api/donations/qr?amount=1008&note=Donation+for+Temple+Services')
+  const [qrSrc, setQrSrc] = useState(`${API_BASE}/donations/qr?amount=1008&note=Donation+for+Temple+Services`)
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [utrDigits, setUtrDigits] = useState('')
@@ -113,7 +113,7 @@ export default function DonationPage() {
     // Load devotee profile fields if logged in (no UPI fetch needed — QR comes from backend)
     const authState = getAuth()
     if (authState && authState.token && authState.role === 'devotee') {
-      fetch('/api/devotee/profile', {
+      fetch(`${API_BASE}/devotee/profile`, {
         headers: { Authorization: `Bearer ${authState.token}` },
       })
         .then((res) => res.json())
@@ -136,7 +136,7 @@ export default function DonationPage() {
   // Update QR image URL whenever the amount changes — backend generates the actual QR PNG
   useEffect(() => {
     const amount = donateAmount || '0'
-    setQrSrc(`/api/donations/qr?amount=${encodeURIComponent(amount)}&note=Donation+for+Temple+Services`)
+    setQrSrc(`${API_BASE}/donations/qr?amount=${encodeURIComponent(amount)}&note=Donation+for+Temple+Services`)
   }, [donateAmount])
 
   function loadData() {
@@ -357,12 +357,16 @@ export default function DonationPage() {
                 <p className="text-xs font-bold text-slate-700 mt-4">
                   Selected Amount: <span className="text-sm font-black text-slate-900">₹{donateAmount || '0'}</span>
                 </p>
-                <p className="text-[11px] text-slate-400 mt-1">Scan with GPay, PhonePe, Paytm, or BHIM</p>
+                <p className="mt-1 text-slate-400">
+                  <span className="text-[11px]">Scan with </span>
+                  <span className="text-[12.4px] font-bold text-slate-600">PhonePe, Paytm</span>
+                  <span className="text-[11px] text-slate-400"> (only)</span>
+                </p>
 
                 {/* Mobile intent payment button — UPI ID resolved server-side */}
                 <div className="w-full mt-4 block md:hidden">
                   <a
-                    href={`/api/donations/upi-intent?amount=${encodeURIComponent(donateAmount || '0')}&note=Donation+for+Temple+Services`}
+                    href={`${API_BASE}/donations/upi-intent?amount=${encodeURIComponent(donateAmount || '0')}&note=Donation+for+Temple+Services`}
                     className="w-full bg-slate-950 hover:bg-black text-white font-extrabold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg transition active:scale-95 text-xs sm:text-sm"
                   >
                     🚀 Pay via UPI App (GPay/PhonePe)
@@ -395,7 +399,7 @@ export default function DonationPage() {
                 <span className="text-2xl">🙌</span>
                 <div>
                   <h4 className="text-xs font-extrabold text-slate-800">Your contribution matters</h4>
-                  <p className="text-[10px] text-slate-500">100% tax exempt charity</p>
+                  <p className="text-[10px] text-slate-500">You are part of &quot;Go-Seva&quot; &amp; Preaching</p>
                 </div>
               </div>
             </div>
