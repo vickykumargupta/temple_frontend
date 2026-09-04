@@ -29,6 +29,92 @@
   animation: breathe-zoom 3.5s ease-in-out infinite;
 }
 
+@keyframes yatra-bike-tour {
+  0% {
+    left: 0px;
+    opacity: 1;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  38% {
+    left: calc(100% - 38px);
+    opacity: 1;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  44% {
+    left: calc(100% - 38px);
+    opacity: 1;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  47% {
+    left: calc(100% - 38px);
+    opacity: 0;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  48% {
+    left: 0px;
+    opacity: 0;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  100% {
+    left: 0px;
+    opacity: 0;
+    transform: translateY(-50%) scaleX(-1);
+  }
+}
+
+@keyframes yatra-car-tour {
+  0% {
+    left: calc(100% - 38px);
+    opacity: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+  49% {
+    left: calc(100% - 38px);
+    opacity: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+  51% {
+    left: calc(100% - 38px);
+    opacity: 1;
+    transform: translateY(-50%) scaleX(1);
+  }
+  88% {
+    left: 8px;
+    opacity: 1;
+    transform: translateY(-50%) scaleX(1);
+  }
+  94% {
+    left: 8px;
+    opacity: 1;
+    transform: translateY(-50%) scaleX(1);
+  }
+  97% {
+    left: 8px;
+    opacity: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+  98% {
+    left: calc(100% - 38px);
+    opacity: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+  100% {
+    left: calc(100% - 38px);
+    opacity: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+}
+
+.animate-yatra-bike {
+  animation: yatra-bike-tour 5.5s ease-in-out infinite;
+  will-change: left, opacity;
+}
+
+.animate-yatra-car {
+  animation: yatra-car-tour 5.5s ease-in-out infinite;
+  will-change: left, opacity;
+}
+
 :root,
 [data-theme="saffron"] {
   --theme-from: #c2410c;

@@ -7,7 +7,7 @@ export default function IyfSection() {
   const auth = getAuth()
   const email = auth?.role === 'admin' ? '' : (auth?.email || '')
   return (
-    <section id="iyf" className="scroll-mt-16 py-20" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}>
+    <section id="iyf" className="scroll-mt-16 pt-12 pb-6 sm:py-20" style={{ background: 'linear-gradient(to bottom, var(--theme-soft-to), var(--theme-soft-from), #ffffff)' }}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-14">
           <div className="inline-block text-white text-sm font-bold px-4 py-1 rounded-full mb-5" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
@@ -20,11 +20,11 @@ export default function IyfSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
-          <div className="relative group">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-[11px] sm:mb-14 max-w-4xl mx-auto">
+          <div className="relative group md:col-span-2">
             <Link
               to="/iyf/retreats-camps"
-              className="block bg-gradient-to-b from-amber-50/40 via-white to-white rounded-2xl shadow-md p-7 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border-2 border-amber-400/60 ring-4 ring-amber-400/10 h-full relative overflow-hidden"
+              className="block bg-gradient-to-b from-amber-50/40 via-white to-white rounded-2xl shadow-md px-4 py-6 sm:p-7 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border-2 border-amber-400/60 ring-4 ring-amber-400/10 h-full relative overflow-hidden"
             >
               <div className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md animate-pulse">
                 🌟 Spotlight
@@ -33,34 +33,32 @@ export default function IyfSection() {
                 <img src="/images/iyf_retreats_camps.png" alt="Retreats & Camps" className="w-full h-full object-cover animate-breathe-zoom" />
               </div>
               <h3 className="text-xl font-extrabold text-gray-900 mb-1 flex items-center gap-1.5">
-                Retreats & Camps
+                Youth Fest &amp; Yatra Retreats
               </h3>
               <p className="text-[13px] md:text-xs text-amber-700 font-bold mb-3 tracking-wide">
-                Special Youth Outings & Immersive Programs
+                Special Youth Outings &amp; Immersive Programs
               </p>
               <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                Yoga retreats, holy yatras, festive camps & spiritual residential home stays to rejuvenate the mind and soul.
+                Dynamic youth fests, devotional music, inspiring sessions, and rejuvenating pilgrimages to holy dhams.
               </p>
 
-              {/* Three Interactive Program Badges */}
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                <span className="inline-flex items-center gap-1 bg-amber-100/80 text-amber-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-amber-200 shadow-xs">
+              {/* Two Interactive Program Badges */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="inline-flex items-center gap-1.5 bg-amber-100/80 text-amber-900 text-[14px] md:text-xs font-extrabold px-3.5 py-1.5 rounded-lg border border-amber-200 shadow-xs">
                   🎪 Youth Fest
                 </span>
-                <span className="inline-flex items-center gap-1 bg-orange-100/80 text-orange-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-orange-200 shadow-xs">
-                  🚩 Yatra Retreat
-                </span>
-                <span className="inline-flex items-center gap-1 bg-emerald-100/80 text-emerald-900 text-[14px] md:text-[11px] font-extrabold px-3 py-1 rounded-lg border border-emerald-200 shadow-xs">
-                  🏡 Krishna&apos;s Home
+                <span className="inline-flex items-center gap-1.5 bg-orange-100/80 text-orange-900 text-[14px] md:text-xs font-extrabold px-3.5 py-1.5 rounded-lg border border-orange-200 shadow-xs">
+                  🏍️ Yatra Retreat
                 </span>
               </div>
 
               <span className="inline-flex items-center text-sm font-extrabold text-amber-600 group-hover:text-amber-700">
-                Choose Program & Register →
+                Choose Program &amp; Register →
               </span>
             </Link>
           </div>
 
+          {/* Hidden cards for now as requested
           <InfoCard
             image="/images/iyf_gita_classes.png"
             title="Gita Classes"
@@ -91,9 +89,10 @@ export default function IyfSection() {
             desc="Harinama sankirtana, book distribution and serving prasadam to the wider community."
             to="/iyf/community-service"
           />
+          */}
         </div>
 
-        <div className="text-white rounded-3xl p-10 md:p-14 text-center" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
+        <div className="hidden sm:block text-white rounded-3xl p-10 md:p-14 text-center" style={{ background: 'linear-gradient(90deg, var(--theme-cta-from), var(--theme-cta-to))' }}>
           <h3 className="text-2xl md:text-3xl font-bold mb-3">Be part of the Youth Forum</h3>
           <p className="mb-8 max-w-xl mx-auto" style={{ color: 'var(--theme-text-soft)' }}>
             Join a community of dynamic young devotees growing together in Krishna consciousness.
@@ -108,7 +107,7 @@ export default function IyfSection() {
         </div>
       </div>
 
-      <div id="register" className="bg-white py-16 scroll-mt-16">
+      <div id="register" className="bg-white pt-8 pb-14 sm:py-16 scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             Join IYF
@@ -120,18 +119,18 @@ export default function IyfSection() {
           <ProgramRegistrationForm
             title="IYF Student Registration"
             program="IYF"
-            registerFn={registerIyf}
+            registerFn={(payload) => {
+              const fallbackEmail = email || `${payload.phone}@iyf.guest`
+              return registerIyf({
+                ...payload,
+                email: payload.email || fallbackEmail,
+              })
+            }}
             intro="IYF is open to college students"
             fields={[
-              { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female'], placeholder: 'Select gender' },
               { name: 'fullName', label: 'Full Name', type: 'text', required: true, placeholder: 'Enter your full name' },
-              { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Enter your email', defaultValue: email },
-              { name: 'phone', label: 'Phone', type: 'tel', required: true, placeholder: 'Enter your phone number' },
-              { name: 'age', label: 'Age', type: 'number', placeholder: 'Enter your age' },
-              { name: 'college', label: 'College Name', type: 'text', placeholder: 'Enter your college name' },
-              { name: 'course', label: 'Course / Stream', type: 'text', placeholder: 'e.g. B.Tech, BBA, BSc' },
-              { name: 'yearOfStudy', label: 'Year of Study', type: 'text', placeholder: 'e.g. 2nd Year' },
-              { name: 'interests', label: 'Interests', type: 'textarea', fullWidth: true, placeholder: 'What areas interest you most? (kirtan, Gita classes, service, etc.)' },
+              { name: 'phone', label: 'Mobile Number', type: 'tel', required: true, placeholder: 'Enter your 10-digit mobile number' },
+              { name: 'college', label: 'College Name', type: 'text', fullWidth: true, placeholder: 'Enter your college name' },
             ]}
           />
         </div>
