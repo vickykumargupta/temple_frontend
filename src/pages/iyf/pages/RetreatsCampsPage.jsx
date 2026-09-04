@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { registerIyf, getAuth } from '../../../services/api'
+import { sanitizeAndAutofillEmail } from '../../../utils/emailSanitizer'
 
 const PROGRAMS = [
   {
@@ -55,6 +56,16 @@ export default function RetreatsCampsPage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+
+  // Field Refs for smooth Enter key navigation and error focusing
+  const fullNameRef = useRef(null)
+  const phoneRef = useRef(null)
+  const emailRef = useRef(null)
+  const genderRef = useRef(null)
+  const ageRef = useRef(null)
+  const collegeRef = useRef(null)
+  const companyRef = useRef(null)
+  const customInterestRef = useRef(null)
 
   // Handle program selection toggling
   const toggleProgram = (id) => {
@@ -115,46 +126,57 @@ export default function RetreatsCampsPage() {
 
   const dynamicField = getDynamicInterestField()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-
+  const validateForm = () => {
     if (!formData.fullName.trim()) {
-      setError('Please enter your full name.')
-      return
+      return { msg: 'Please enter your full name.', ref: fullNameRef }
     }
-
     if (formData.fullName.trim().length > 35) {
-      setError('Full Name must be 35 characters or less.')
-      return
+      return { msg: 'Full Name must be 35 characters or less.', ref: fullNameRef }
     }
-
+    if (!formData.phone.trim()) {
+      return { msg: 'Phone number is required.', ref: phoneRef }
+    }
+    if (formData.phone.length !== 10) {
+      return { msg: 'Phone number must be exactly 10 digits.', ref: phoneRef }
+    }
+    if (!/^[6-9]/.test(formData.phone)) {
+      return { msg: 'Phone number must start with 6, 7, 8, or 9.', ref: phoneRef }
+    }
+    if (!formData.email.trim()) {
+      return { msg: 'Email address is required.', ref: emailRef }
+    }
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRe.test(formData.email.trim())) {
+      return { msg: 'Please enter a valid email address.', ref: emailRef }
+    }
     if (formData.email.trim().length > 30) {
-      setError('Email Address must be 30 characters or less.')
-      return
+      return { msg: 'Email Address must be 30 characters or less.', ref: emailRef }
     }
-
-    if (!formData.phone.trim() || formData.phone.length < 10) {
-      setError('Please enter a valid 10-digit mobile number.')
-      return
-    }
-
     if (formData.occupationType === 'college') {
       if (!formData.college.trim()) {
-        setError('College Name is mandatory for college students.')
-        return
+        return { msg: 'College Name is mandatory for college students.', ref: collegeRef }
       }
       if (/^[0-9]/.test(formData.college.trim())) {
-        setError('College Name cannot start with a number.')
-        return
+        return { msg: 'College Name cannot start with a number.', ref: collegeRef }
       }
     }
-
     if (formData.occupationType === 'workplace' && formData.company.trim()) {
       if (/^[0-9]/.test(formData.company.trim())) {
-        setError('Company Name cannot start with a number.')
-        return
+        return { msg: 'Company Name cannot start with a number.', ref: companyRef }
       }
+    }
+    return null
+  }
+
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault()
+    setError('')
+
+    const valErr = validateForm()
+    if (valErr) {
+      setError(valErr.msg)
+      valErr.ref?.current?.focus()
+      return
     }
 
     const readablePrograms = selectedPrograms
@@ -341,6 +363,7 @@ export default function RetreatsCampsPage() {
                       Full Name <span className="text-rose-500">*</span>
                     </label>
                     <input
+                      ref={fullNameRef}
                       type="text"
                       required
                       maxLength={35}
@@ -351,6 +374,12 @@ export default function RetreatsCampsPage() {
                         const val = e.target.value.replace(/[0-9]/g, '').slice(0, 35)
                         setFormData({ ...formData, fullName: val })
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          phoneRef.current?.focus()
+                        }
+                      }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
                   </div>
@@ -360,6 +389,7 @@ export default function RetreatsCampsPage() {
                       Mobile Number <span className="text-gray-400 text-[11px] lowercase font-normal">(10 digits)</span> <span className="text-rose-500">*</span>
                     </label>
                     <input
+                      ref={phoneRef}
                       type="tel"
                       required
                       placeholder="e.g. 9876543210"
@@ -367,6 +397,12 @@ export default function RetreatsCampsPage() {
                       onChange={(e) => {
                         const val = e.target.value.replace(/\D/g, '')
                         if (val.length <= 10) setFormData({ ...formData, phone: val })
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          emailRef.current?.focus()
+                        }
                       }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
@@ -380,12 +416,25 @@ export default function RetreatsCampsPage() {
                       Email Address <span className="text-rose-500">*</span>
                     </label>
                     <input
+                      ref={emailRef}
                       type="email"
                       required
                       maxLength={30}
                       placeholder="you@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value.slice(0, 30) })}
+                      onBlur={(e) => {
+                        const nextEmail = sanitizeAndAutofillEmail(e.target.value).slice(0, 30)
+                        setFormData((prev) => ({ ...prev, email: nextEmail }))
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          const nextEmail = sanitizeAndAutofillEmail(e.target.value).slice(0, 30)
+                          setFormData((prev) => ({ ...prev, email: nextEmail }))
+                          genderRef.current?.focus()
+                        }
+                      }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
                   </div>
@@ -395,8 +444,15 @@ export default function RetreatsCampsPage() {
                     <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">Gender</label>
                     <div className="relative">
                       <select
+                        ref={genderRef}
                         value={formData.gender}
                         onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            ageRef.current?.focus()
+                          }
+                        }}
                         className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-[14.5px] font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition cursor-pointer appearance-none"
                       >
                         <option value="Male">Male</option>
@@ -412,6 +468,7 @@ export default function RetreatsCampsPage() {
                   <div>
                     <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">Age</label>
                     <input
+                      ref={ageRef}
                       type="number"
                       min="1"
                       max="108"
@@ -429,6 +486,16 @@ export default function RetreatsCampsPage() {
                             } else if (num >= 0) {
                               setFormData({ ...formData, age: val })
                             }
+                          }
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          if (formData.occupationType === 'college') {
+                            collegeRef.current?.focus()
+                          } else {
+                            companyRef.current?.focus()
                           }
                         }
                       }}
@@ -478,6 +545,7 @@ export default function RetreatsCampsPage() {
                       College Name <span className="text-rose-500 text-[11px] lowercase font-semibold">* (mandatory for students)</span>
                     </label>
                     <input
+                      ref={collegeRef}
                       type="text"
                       required
                       maxLength={50}
@@ -488,6 +556,12 @@ export default function RetreatsCampsPage() {
                         let val = e.target.value.replace(/^[0-9]+/, '').slice(0, 50)
                         setFormData({ ...formData, college: val })
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          customInterestRef.current?.focus()
+                        }
+                      }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
                   </div>
@@ -497,6 +571,7 @@ export default function RetreatsCampsPage() {
                       Company / Organization Name <span className="text-gray-400 text-[11px] lowercase font-normal">(optional)</span>
                     </label>
                     <input
+                      ref={companyRef}
                       type="text"
                       maxLength={50}
                       placeholder="e.g. Infosys, TCS, Startup, Self-Employed"
@@ -505,6 +580,12 @@ export default function RetreatsCampsPage() {
                         // Cannot start with numbers
                         let val = e.target.value.replace(/^[0-9]+/, '').slice(0, 50)
                         setFormData({ ...formData, company: val })
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          customInterestRef.current?.focus()
+                        }
                       }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
@@ -523,10 +604,17 @@ export default function RetreatsCampsPage() {
                     </span>
                   </div>
                   <textarea
+                    ref={customInterestRef}
                     rows={3}
                     placeholder={dynamicField.placeholder}
                     value={formData.customInterest}
                     onChange={(e) => setFormData({ ...formData, customInterest: e.target.value })}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleSubmit(e)
+                      }
+                    }}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                   ></textarea>
                 </div>
