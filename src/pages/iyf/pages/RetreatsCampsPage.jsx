@@ -16,13 +16,13 @@ const PROGRAMS = [
   {
     id: 'yatra-retreat',
     name: 'Yatra Retreat',
-    icon: '🚩',
+    icon: '🏍️',
     tagline: 'Pilgrimage, Camps & Holy Dham Parikrama',
     description: 'Rejuvenating journeys to holy dhams, outdoor meditation camps, hill treks, and guided sacred parikramas.',
     badge: 'Spiritual Tour',
     badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300',
   },
-  {
+  /* {
     id: 'krishna-home',
     name: "Krishna's Home",
     icon: '🏡',
@@ -30,7 +30,7 @@ const PROGRAMS = [
     description: 'Experience authentic temple lifestyle, peaceful morning sadhana, sattvic prasadam, and deep philosophical study.',
     badge: 'Weekend / Monthly',
     badgeColor: 'bg-sky-100 text-sky-900 border-sky-300',
-  },
+  }, */
 ]
 
 export default function RetreatsCampsPage() {
@@ -46,11 +46,6 @@ export default function RetreatsCampsPage() {
     email: userEmail,
     phone: '',
     gender: 'Male',
-    age: '',
-    occupationType: 'college', // 'college' | 'workplace'
-    college: '',
-    company: '',
-    customInterest: '',
   })
 
   const [loading, setLoading] = useState(false)
@@ -62,10 +57,6 @@ export default function RetreatsCampsPage() {
   const phoneRef = useRef(null)
   const emailRef = useRef(null)
   const genderRef = useRef(null)
-  const ageRef = useRef(null)
-  const collegeRef = useRef(null)
-  const companyRef = useRef(null)
-  const customInterestRef = useRef(null)
 
   // Handle program selection toggling
   const toggleProgram = (id) => {
@@ -78,53 +69,6 @@ export default function RetreatsCampsPage() {
       }
     })
   }
-
-  // Dynamic label and placeholder based on selected programs
-  const getDynamicInterestField = () => {
-    const hasKrishnaHome = selectedPrograms.includes('krishna-home')
-    const hasYatra = selectedPrograms.includes('yatra-retreat')
-    const hasYouthFest = selectedPrograms.includes('youth-fest')
-
-    if (hasKrishnaHome && !hasYatra && !hasYouthFest) {
-      return {
-        label: 'Your Expectations',
-        placeholder: 'Share your expectations from living the ashram / spiritual home experience...',
-        help: "Tell us what you hope to experience at Krishna's Home stay",
-      }
-    }
-
-    if (hasYatra && !hasKrishnaHome && !hasYouthFest) {
-      return {
-        label: 'Which Devotional Place You Choose',
-        placeholder: 'e.g. Vrindavan, Mayapur, Tirupati, Udupi, or nearby holy dhams...',
-        help: 'Mention your preferred pilgrimage destination or tour dates',
-      }
-    }
-
-    if (hasYouthFest && !hasKrishnaHome && !hasYatra) {
-      return {
-        label: 'Your Interests',
-        placeholder: 'e.g. Kirtan, drama, volunteering, debates, public speaking, music...',
-        help: 'Tell us which events or activities interest you most in Youth Fest',
-      }
-    }
-
-    if (hasKrishnaHome && hasYatra && !hasYouthFest) {
-      return {
-        label: 'Your Expectations & Preferred Holy Places',
-        placeholder: 'Share your expectations and places you would love to visit with devotees...',
-        help: 'Tell us about your ashram stay goals and favorite holy dhams',
-      }
-    }
-
-    return {
-      label: 'Your Interests & Expectations',
-      placeholder: 'Share your expectations, preferred holy places, or specific event interests...',
-      help: 'Feel free to share any specific preferences for your selected programs',
-    }
-  }
-
-  const dynamicField = getDynamicInterestField()
 
   const validateForm = () => {
     if (!formData.fullName.trim()) {
@@ -141,29 +85,6 @@ export default function RetreatsCampsPage() {
     }
     if (!/^[6-9]/.test(formData.phone)) {
       return { msg: 'Phone number must start with 6, 7, 8, or 9.', ref: phoneRef }
-    }
-    if (!formData.email.trim()) {
-      return { msg: 'Email address is required.', ref: emailRef }
-    }
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRe.test(formData.email.trim())) {
-      return { msg: 'Please enter a valid email address.', ref: emailRef }
-    }
-    if (formData.email.trim().length > 30) {
-      return { msg: 'Email Address must be 30 characters or less.', ref: emailRef }
-    }
-    if (formData.occupationType === 'college') {
-      if (!formData.college.trim()) {
-        return { msg: 'College Name is mandatory for college students.', ref: collegeRef }
-      }
-      if (/^[0-9]/.test(formData.college.trim())) {
-        return { msg: 'College Name cannot start with a number.', ref: collegeRef }
-      }
-    }
-    if (formData.occupationType === 'workplace' && formData.company.trim()) {
-      if (/^[0-9]/.test(formData.company.trim())) {
-        return { msg: 'Company Name cannot start with a number.', ref: companyRef }
-      }
     }
     return null
   }
@@ -186,17 +107,13 @@ export default function RetreatsCampsPage() {
 
     setLoading(true)
     try {
+      const emailPayload = formData.email?.trim() || `${formData.phone.trim()}@iyf.guest`
       await registerIyf({
         fullName: formData.fullName.trim(),
-        email: formData.email.trim(),
+        email: emailPayload,
         phone: formData.phone.trim(),
         gender: formData.gender,
-        age: formData.age ? parseInt(formData.age, 10) : undefined,
-        occupationType: formData.occupationType,
-        college: formData.occupationType === 'college' ? formData.college.trim() : undefined,
-        company: formData.occupationType === 'workplace' ? formData.company.trim() : undefined,
         selectedPrograms: readablePrograms,
-        interests: formData.customInterest.trim() || undefined,
       })
 
       setSuccess(true)
@@ -205,11 +122,6 @@ export default function RetreatsCampsPage() {
         email: userEmail,
         phone: '',
         gender: 'Male',
-        age: '',
-        occupationType: 'college',
-        college: '',
-        company: '',
-        customInterest: '',
       })
     } catch (err) {
       setError(err.message || 'Failed to submit registration. Please try again.')
@@ -268,7 +180,7 @@ export default function RetreatsCampsPage() {
                 <div
                   key={prog.id}
                   onClick={() => toggleProgram(prog.id)}
-                  className={`cursor-pointer rounded-2xl p-6 transition-all duration-300 border-2 relative flex flex-col justify-between select-none ${
+                  className={`cursor-pointer rounded-2xl px-3.5 py-5 sm:p-6 transition-all duration-300 border-2 relative flex flex-col justify-between select-none ${
                     isSelected
                       ? 'bg-gradient-to-b from-blue-50/80 via-white to-white border-blue-500 shadow-xl ring-4 ring-blue-500/20 -translate-y-1'
                       : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-md'
@@ -276,8 +188,32 @@ export default function RetreatsCampsPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-3xl">{prog.icon}</span>
-                      <div className="flex items-center gap-2">
+                      {prog.id === 'yatra-retreat' ? (
+                        <div className="relative flex-1 mr-3 h-10 overflow-hidden flex items-center">
+                          {/* Subtle track road indicator */}
+                          <div className="absolute left-1 right-2 h-[2px] border-b-2 border-dashed border-indigo-200/70 top-1/2 -translate-y-1/2 pointer-events-none" />
+
+                          {/* Bike: moves Left -> Right towards 'Spiritual Tour', stops & hides */}
+                          <div
+                            className="animate-yatra-bike absolute top-1/2 flex items-center justify-center text-3xl sm:text-[34px] select-none filter drop-shadow-sm cursor-pointer"
+                            title="Yatra Bike Tour"
+                          >
+                            🏍️
+                          </div>
+
+                          {/* Car: moves Right -> Left away from 'Spiritual Tour', reaches 8px from card start, stops & hides */}
+                          <div
+                            className="animate-yatra-car absolute top-1/2 flex items-center justify-center text-3xl sm:text-[34px] select-none filter drop-shadow-sm cursor-pointer"
+                            title="Yatra Car / Cab Tour"
+                          >
+                            🚗
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-3xl">{prog.icon}</span>
+                      )}
+
+                      <div className="flex items-center gap-2 flex-shrink-0">
                         {/* Increased badge text size by 1.5px (text-[11.5px]) */}
                         <span className={`text-[11.5px] font-extrabold px-3 py-1 rounded-full border tracking-wide ${prog.badgeColor}`}>
                           {prog.badge}
@@ -401,222 +337,39 @@ export default function RetreatsCampsPage() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault()
-                          emailRef.current?.focus()
-                        }
-                      }}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    />
-                  </div>
-                </div>
-
-                {/* Email, Gender, Age */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                  <div>
-                    <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">
-                      Email Address <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      ref={emailRef}
-                      type="email"
-                      required
-                      maxLength={30}
-                      placeholder="you@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value.slice(0, 30) })}
-                      onBlur={(e) => {
-                        const nextEmail = sanitizeAndAutofillEmail(e.target.value).slice(0, 30)
-                        setFormData((prev) => ({ ...prev, email: nextEmail }))
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault()
-                          const nextEmail = sanitizeAndAutofillEmail(e.target.value).slice(0, 30)
-                          setFormData((prev) => ({ ...prev, email: nextEmail }))
                           genderRef.current?.focus()
                         }
                       }}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                     />
                   </div>
+                </div>
 
-                  {/* Gender Selector with custom arrow and generous right padding */}
-                  <div>
-                    <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">Gender</label>
-                    <div className="relative">
-                      <select
-                        ref={genderRef}
-                        value={formData.gender}
-                        onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault()
-                            ageRef.current?.focus()
-                          }
-                        }}
-                        className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-[14.5px] font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition cursor-pointer appearance-none"
-                      >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-gray-500 text-xs">
-                        ▼
-                      </div>
+                {/* Gender Selector (Optional) */}
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">
+                    Gender <span className="text-gray-400 text-[11px] lowercase font-normal">(optional)</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      ref={genderRef}
+                      value={formData.gender}
+                      onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          handleSubmit(e)
+                        }
+                      }}
+                      className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-[14.5px] font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition cursor-pointer appearance-none"
+                    >
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-gray-500 text-xs">
+                      ▼
                     </div>
                   </div>
-
-                  {/* Age Field: Max up to 108 */}
-                  <div>
-                    <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">Age</label>
-                    <input
-                      ref={ageRef}
-                      type="number"
-                      min="1"
-                      max="108"
-                      placeholder="e.g. 21"
-                      value={formData.age}
-                      onChange={(e) => {
-                        const val = e.target.value
-                        if (val === '') {
-                          setFormData({ ...formData, age: '' })
-                        } else {
-                          const num = parseInt(val, 10)
-                          if (!isNaN(num)) {
-                            if (num > 108) {
-                              setFormData({ ...formData, age: '108' })
-                            } else if (num >= 0) {
-                              setFormData({ ...formData, age: val })
-                            }
-                          }
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault()
-                          if (formData.occupationType === 'college') {
-                            collegeRef.current?.focus()
-                          } else {
-                            companyRef.current?.focus()
-                          }
-                        }
-                      }}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    />
-                  </div>
-                </div>
-
-                {/* College / Workplace Segmented Toggle Button */}
-                <div>
-                  <label className="block text-xs font-bold uppercase text-gray-700 mb-2">
-                    Current Occupation / Status <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="grid grid-cols-2 gap-3 max-w-md">
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, occupationType: 'college' })}
-                      className={`py-2.5 px-4 rounded-xl font-extrabold text-[13px] sm:text-[15px] flex items-center justify-center gap-2 border-2 transition-all cursor-pointer ${
-                        formData.occupationType === 'college'
-                          ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20'
-                          : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      {/* Emoji size increased by 2px (text-lg) */}
-                      <span className="text-lg leading-none">🎓</span> College Student
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, occupationType: 'workplace' })}
-                      className={`py-2.5 px-4 rounded-xl font-extrabold text-[13px] sm:text-[15px] flex items-center justify-center gap-2 border-2 transition-all cursor-pointer ${
-                        formData.occupationType === 'workplace'
-                          ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20'
-                          : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      {/* Emoji size increased by 2px (text-lg) */}
-                      <span className="text-lg leading-none">💼</span> Working Professional
-                    </button>
-                  </div>
-                </div>
-
-                {/* Conditional Field based on occupation */}
-                {formData.occupationType === 'college' ? (
-                  <div>
-                    <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">
-                      College Name <span className="text-rose-500 text-[11px] lowercase font-semibold">* (mandatory for students)</span>
-                    </label>
-                    <input
-                      ref={collegeRef}
-                      type="text"
-                      required
-                      maxLength={50}
-                      placeholder="e.g. BMS College, RVCE, PES University, Bangalore"
-                      value={formData.college}
-                      onChange={(e) => {
-                        // Cannot start with numbers
-                        let val = e.target.value.replace(/^[0-9]+/, '').slice(0, 50)
-                        setFormData({ ...formData, college: val })
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault()
-                          customInterestRef.current?.focus()
-                        }
-                      }}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    <label className="block text-xs font-bold uppercase text-gray-700 mb-1.5">
-                      Company / Organization Name <span className="text-gray-400 text-[11px] lowercase font-normal">(optional)</span>
-                    </label>
-                    <input
-                      ref={companyRef}
-                      type="text"
-                      maxLength={50}
-                      placeholder="e.g. Infosys, TCS, Startup, Self-Employed"
-                      value={formData.company}
-                      onChange={(e) => {
-                        // Cannot start with numbers
-                        let val = e.target.value.replace(/^[0-9]+/, '').slice(0, 50)
-                        setFormData({ ...formData, company: val })
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault()
-                          customInterestRef.current?.focus()
-                        }
-                      }}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    />
-                  </div>
-                )}
-
-                {/* Dynamic Context-Aware Field (Expectations / Devotional Place / Interests) */}
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-bold uppercase text-gray-700">
-                      {dynamicField.label}
-                    </label>
-                    {/* Increased helper text size by 1px (text-xs) */}
-                    <span className="text-xs text-blue-800 font-bold bg-blue-50 px-3 py-1 rounded-md border border-blue-100">
-                      {dynamicField.help}
-                    </span>
-                  </div>
-                  <textarea
-                    ref={customInterestRef}
-                    rows={3}
-                    placeholder={dynamicField.placeholder}
-                    value={formData.customInterest}
-                    onChange={(e) => setFormData({ ...formData, customInterest: e.target.value })}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleSubmit(e)
-                      }
-                    }}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                  ></textarea>
                 </div>
 
                 {/* Submit Button with increased text size (text-[15px] sm:text-[17px]) */}
